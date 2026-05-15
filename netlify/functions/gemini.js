@@ -1,5 +1,4 @@
 exports.handler = async function(event, context) {
-  // Handle preflight requests
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -22,32 +21,28 @@ exports.handler = async function(event, context) {
 
     if (!key) {
       return {
-        statusCode: 200, // Return 200 but with error message so frontend can show it
+        statusCode: 200,
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-        body: JSON.stringify({ error: "Missing GEMINI_API_KEY in Netlify settings. Please check your environment variables." })
+        body: JSON.stringify({ error: "Missing GEMINI_API_KEY in Netlify settings." })
       };
     }
 
-    const projectContext = `You are the Super Thinker AI for Beyond Justice Initiative in Rwanda. Task: ${task}.`;
+    const projectContext = "You are the Super Thinker AI for Beyond Justice Initiative. Return your response ONLY as a raw JSON object.";
     let promptText = "";
 
     if (task === 'analyze-legal') {
-      promptText = `${projectContext} Analyze this legal text and return JSON with keys: summary, orderedSupport, legalStatus, gaps (array), recommendations (array). Text: ${text}`;
+      promptText = `${projectContext} TASK: Analyze this legal text. Return JSON with keys: "summary", "orderedSupport", "legalStatus", "gaps" (array), "recommendations" (array). TEXT: ${text}`;
     } else if (task === 'field-insight') {
-      promptText = `${projectContext} Analyze these case trends and return JSON with keys: trend, criticalGap, strategy (array), policyPoint. Data: ${JSON.stringify(caseData)}`;
+      promptText = `${projectContext} TASK: Analyze these case trends. Return JSON with keys: "trend", "criticalGap", "strategy" (array), "policyPoint". DATA: ${JSON.stringify(caseData)}`;
     } else {
-      promptText = `${projectContext} Draft a story from these notes. return JSON with keys: title, summary, body. Notes: ${text}`;
+      promptText = `${projectContext} TASK: Draft an anonymized advocacy story. Return JSON with keys: "title", "summary", "body". NOTES: ${text}`;
     }
 
-    const response = await fetch('https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=' + key, {
+    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + key, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: promptText }] }],
-        generationConfig: { 
-          responseMimeType: "application/json",
-          temperature: 0.7
-        }
+        contents: [{ parts: [{ text: promptText }] }]
       })
     });
 
@@ -57,11 +52,14 @@ exports.handler = async function(event, context) {
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-        body: JSON.stringify({ error: "Google AI Error: " + data.error.message })
+        body: JSON.stringify({ error: "Google Error: " + data.error.message })
       };
     }
 
-    const aiResponse = data.candidates[0].content.parts[0].text;
+    let aiResponse = data.candidates[0].content.parts[0].text;
+    
+    // Safety check to remove any markdown code blocks if the AI includes them
+    aiResponse = aiResponse.replace(/```json/g, "").replace(/```/g, "").trim();
     
     return {
       statusCode: 200,
@@ -69,14 +67,14 @@ exports.handler = async function(event, context) {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       },
-      body: aiResponse // The AI already returns a JSON string
+      body: aiResponse
     };
 
   } catch (err) {
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ error: "Function Error: " + err.message })
+      body: JSON.stringify({ error: "System Error: " + err.message })
     };
   }
 };
