@@ -2271,33 +2271,36 @@ async function runSuperThinker(task) {
     });
 
     var data = await response.json();
-    if (!response.ok) throw new Error(data.error || 'AI analysis failed.');
-
+    if (data.error) throw new Error(data.error);
 
     $('st-results-card').style.display = 'block';
     var out = $('st-output');
     
     if (task === 'analyze-legal') {
+      var gaps = data.gaps || [];
+      var recs = data.recommendations || [];
       out.innerHTML = `
-        <div style="margin-bottom:12px;"><b>Summary:</b> ${esc(data.summary)}</div>
+        <div style="margin-bottom:12px;"><b>Summary:</b> ${esc(data.summary || 'No summary')}</div>
         <div class="card" style="background:var(--light); margin-bottom:12px; border-left:4px solid var(--accent);">
           <div style="font-size:11px; color:var(--mut);">ORDERED SUPPORT</div>
-          <div>${esc(data.orderedSupport)}</div>
+          <div>${esc(data.orderedSupport || 'Not found')}</div>
         </div>
-        <div style="margin-bottom:12px;"><b>Legal Status:</b> ${esc(data.legalStatus)}</div>
-        <div style="margin-bottom:12px;"><b>Detected Gaps:</b> <ul style="margin-left:18px;">${data.gaps.map(g => '<li>'+esc(g)+'</li>').join('')}</ul></div>
-        <div><b>Recommendations:</b> <ul style="margin-left:18px;">${data.recommendations.map(r => '<li>'+esc(r)+'</li>').join('')}</ul></div>
+        <div style="margin-bottom:12px;"><b>Legal Status:</b> ${esc(data.legalStatus || 'Unknown')}</div>
+        <div style="margin-bottom:12px;"><b>Detected Gaps:</b> <ul style="margin-left:18px;">${gaps.map(g => '<li>'+esc(g)+'</li>').join('')}</ul></div>
+        <div><b>Recommendations:</b> <ul style="margin-left:18px;">${recs.map(r => '<li>'+esc(r)+'</li>').join('')}</ul></div>
       `;
     } else if (task === 'field-insight') {
+      var strat = data.strategy || [];
       out.innerHTML = `
-        <div style="margin-bottom:12px;"><b>Trend:</b> ${esc(data.trend)}</div>
-        <div class="al al-er" style="margin-bottom:12px;"><b>Critical Gap:</b> ${esc(data.criticalGap)}</div>
-        <div style="margin-bottom:12px;"><b>Suggested Strategy:</b> <ul style="margin-left:18px;">${data.strategy.map(s => '<li>'+esc(s)+'</li>').join('')}</ul></div>
+        <div style="margin-bottom:12px;"><b>Trend:</b> ${esc(data.trend || 'No trend detected')}</div>
+        <div class="al al-er" style="margin-bottom:12px;"><b>Critical Gap:</b> ${esc(data.criticalGap || 'None')}</div>
+        <div style="margin-bottom:12px;"><b>Suggested Strategy:</b> <ul style="margin-left:18px;">${strat.map(s => '<li>'+esc(s)+'</li>').join('')}</ul></div>
         <div class="card" style="padding:10px; font-style:italic; border-left:4px solid var(--royal);">
-          <b>Policy Advocacy Point:</b> "${esc(data.policyPoint)}"
+          <b>Policy Advocacy Point:</b> "${esc(data.policyPoint || 'N/A')}"
         </div>
       `;
     }
+
   } catch (err) {
     alert('Error: ' + err.message);
   } finally {
