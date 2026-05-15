@@ -2270,8 +2270,9 @@ async function runSuperThinker(task) {
       body: JSON.stringify(body)
     });
 
-    if (!response.ok) throw new Error('AI analysis failed.');
     var data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'AI analysis failed.');
+
 
     $('st-results-card').style.display = 'block';
     var out = $('st-output');
