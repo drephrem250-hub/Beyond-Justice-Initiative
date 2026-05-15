@@ -2275,31 +2275,39 @@ async function runSuperThinker(task) {
 
     $('st-results-card').style.display = 'block';
     var out = $('st-output');
+
+    // Helper to safely display data that might be an object
+    const S = (val) => {
+      if (!val) return 'Not found';
+      if (typeof val === 'object') return JSON.stringify(val, null, 2).replace(/[{}"]/g, '');
+      return esc(val);
+    };
     
     if (task === 'analyze-legal') {
       var gaps = data.gaps || [];
       var recs = data.recommendations || [];
       out.innerHTML = `
-        <div style="margin-bottom:12px;"><b>Summary:</b> ${esc(data.summary || 'No summary')}</div>
+        <div style="margin-bottom:12px;"><b>Summary:</b> ${S(data.summary)}</div>
         <div class="card" style="background:var(--light); margin-bottom:12px; border-left:4px solid var(--accent);">
           <div style="font-size:11px; color:var(--mut);">ORDERED SUPPORT</div>
-          <div>${esc(data.orderedSupport || 'Not found')}</div>
+          <div style="white-space: pre-wrap;">${S(data.orderedSupport)}</div>
         </div>
-        <div style="margin-bottom:12px;"><b>Legal Status:</b> ${esc(data.legalStatus || 'Unknown')}</div>
-        <div style="margin-bottom:12px;"><b>Detected Gaps:</b> <ul style="margin-left:18px;">${gaps.map(g => '<li>'+esc(g)+'</li>').join('')}</ul></div>
-        <div><b>Recommendations:</b> <ul style="margin-left:18px;">${recs.map(r => '<li>'+esc(r)+'</li>').join('')}</ul></div>
+        <div style="margin-bottom:12px;"><b>Legal Status:</b> ${S(data.legalStatus)}</div>
+        <div style="margin-bottom:12px;"><b>Detected Gaps:</b> <ul style="margin-left:18px;">${gaps.map(g => '<li>'+S(g)+'</li>').join('')}</ul></div>
+        <div><b>Recommendations:</b> <ul style="margin-left:18px;">${recs.map(r => '<li>'+S(r)+'</li>').join('')}</ul></div>
       `;
     } else if (task === 'field-insight') {
       var strat = data.strategy || [];
       out.innerHTML = `
-        <div style="margin-bottom:12px;"><b>Trend:</b> ${esc(data.trend || 'No trend detected')}</div>
-        <div class="al al-er" style="margin-bottom:12px;"><b>Critical Gap:</b> ${esc(data.criticalGap || 'None')}</div>
-        <div style="margin-bottom:12px;"><b>Suggested Strategy:</b> <ul style="margin-left:18px;">${strat.map(s => '<li>'+esc(s)+'</li>').join('')}</ul></div>
+        <div style="margin-bottom:12px;"><b>Trend:</b> ${S(data.trend)}</div>
+        <div class="al al-er" style="margin-bottom:12px;"><b>Critical Gap:</b> ${S(data.criticalGap)}</div>
+        <div style="margin-bottom:12px;"><b>Suggested Strategy:</b> <ul style="margin-left:18px;">${strat.map(s => '<li>'+S(s)+'</li>').join('')}</ul></div>
         <div class="card" style="padding:10px; font-style:italic; border-left:4px solid var(--royal);">
-          <b>Policy Advocacy Point:</b> "${esc(data.policyPoint || 'N/A')}"
+          <b>Policy Advocacy Point:</b> "${S(data.policyPoint)}"
         </div>
       `;
     }
+
 
   } catch (err) {
     alert('Error: ' + err.message);
