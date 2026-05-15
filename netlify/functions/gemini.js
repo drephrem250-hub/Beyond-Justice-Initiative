@@ -23,23 +23,25 @@ exports.handler = async function(event, context) {
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-        body: JSON.stringify({ error: "Missing GEMINI_API_KEY in Netlify settings." })
+        body: JSON.stringify({ error: "Missing GEMINI_API_KEY." })
       };
     }
 
-    const projectContext = "You are the Super Thinker AI for Beyond Justice Initiative. Return your response ONLY as a raw JSON object.";
+    const projectContext = "You are the Super Thinker AI. Return response as a JSON object.";
     let promptText = "";
 
     if (task === 'analyze-legal') {
-      promptText = `${projectContext} TASK: Analyze this legal text. Return JSON with keys: "summary", "orderedSupport", "legalStatus", "gaps" (array), "recommendations" (array). TEXT: ${text}`;
+      promptText = `${projectContext} Analyze legal text and return JSON (summary, orderedSupport, legalStatus, gaps, recommendations). TEXT: ${text}`;
     } else if (task === 'field-insight') {
-      promptText = `${projectContext} TASK: Analyze these case trends. Return JSON with keys: "trend", "criticalGap", "strategy" (array), "policyPoint". DATA: ${JSON.stringify(caseData)}`;
+      promptText = `${projectContext} Analyze case trends and return JSON (trend, criticalGap, strategy, policyPoint). DATA: ${JSON.stringify(caseData)}`;
     } else {
-      promptText = `${projectContext} TASK: Draft an anonymized advocacy story. Return JSON with keys: "title", "summary", "body". NOTES: ${text}`;
+      promptText = `${projectContext} Draft story and return JSON (title, summary, body). NOTES: ${text}`;
     }
 
-    // Using v1/gemini-pro for maximum compatibility across all accounts/regions
-    const response = await fetch('https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=' + key, {
+    // RESTORING THE ORIGINAL URL STRUCTURE FROM YOUR WORKING CODE
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + key;
+
+    const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -53,7 +55,7 @@ exports.handler = async function(event, context) {
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-        body: JSON.stringify({ error: "Google Error: " + data.error.message })
+        body: JSON.stringify({ error: "API Error: " + data.error.message })
       };
     }
 
