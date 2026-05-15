@@ -38,7 +38,8 @@ exports.handler = async function(event, context) {
       promptText = `${projectContext} TASK: Draft an anonymized advocacy story. Return JSON with keys: "title", "summary", "body". NOTES: ${text}`;
     }
 
-    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + key, {
+    // Using v1/gemini-pro for maximum compatibility across all accounts/regions
+    const response = await fetch('https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=' + key, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -57,16 +58,11 @@ exports.handler = async function(event, context) {
     }
 
     let aiResponse = data.candidates[0].content.parts[0].text;
-    
-    // Safety check to remove any markdown code blocks if the AI includes them
     aiResponse = aiResponse.replace(/```json/g, "").replace(/```/g, "").trim();
     
     return {
       statusCode: 200,
-      headers: { 
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
       body: aiResponse
     };
 
