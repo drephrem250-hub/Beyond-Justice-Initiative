@@ -1615,71 +1615,123 @@ input:checked + .slider:before {
       </div>
 
       <!-- SUPPORT OUR WORK SECTION -->
-      <div>
-        <div class="sh" style="margin-top:0;margin-bottom:20px;"><div class="sh-lbl">Donations</div><div class="sh-title">Support Our Work</div><div class="sh-desc">Your Contribution Keeps a Child in School</div></div>
+      <div style="margin-top: 32px;">
+        <div class="sh" style="margin-top:0;margin-bottom:20px;">
+          <div class="sh-lbl">Donations & Support</div>
+          <div class="sh-title">Support Our Operations</div>
+          <div class="sh-desc">Your contributions directly fund field validation, educational materials, and medical referrals for teen mothers.</div>
+        </div>
 
-        <!-- How to Support -->
-        <div class="g2" style="margin-bottom:24px;">
-          <div class="card" style="background:linear-gradient(135deg,rgba(16,185,129,.05) 0%,rgba(16,185,129,.1) 100%);border-left:4px solid var(--ok);">
-            <div class="ct" style="margin-bottom:12px;font-size:13px;color:var(--ok);">✅ Mobile Money · MoMo</div>
-            <div style="font-size:12px;margin-bottom:12px;">Send your contribution to:</div>
-            <div style="background:#fff;border:1.5px solid var(--brd);border-radius:7px;padding:12px;text-align:center;margin-bottom:12px;">
-              <div style="font-size:10px;font-weight:600;color:var(--mut);text-transform:uppercase;margin-bottom:4px;">Code</div>
-              <div style="font-size:18px;font-weight:700;color:var(--navy);font-family:'JetBrains Mono',monospace;">174118</div>
-              <div style="font-size:10px;color:var(--mut);margin-top:4px;">MTN Mobile Money · Beyond Justice Initiative</div>
+        <!-- Two Columns: Accounts on Left, Allocation Tiers on Right -->
+        <div class="g2" style="margin-bottom:24px; align-items: stretch;">
+          
+          <!-- Column 1: Clean Giving Accounts -->
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            
+            <!-- Mobile Money Card -->
+            <div class="card" style="border-top: 4px solid var(--ok); flex: 1;">
+              <div class="ct" style="margin-bottom:12px; font-size:14.5px; display:flex; align-items:center; gap:8px; color:var(--navy);">
+                📱 Mobile Money Transfer (MoMo)
+              </div>
+              <p style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">Direct mobile transfer is available for local and regional contributors in Rwanda.</p>
+              
+              <div style="background:var(--light); border:1px solid var(--border-color); border-radius:8px; padding:12px 16px; margin-bottom:12px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13px;">
+                  <span style="color:var(--text-muted);">MTN MoMo Merchant Code:</span>
+                  <strong style="font-family:'JetBrains Mono',monospace; color:var(--navy);">174118</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:13px;">
+                  <span style="color:var(--text-muted);">Registered Name:</span>
+                  <strong style="color:var(--navy);">Beyond Justice Initiative</strong>
+                </div>
+              </div>
+              
+              <div style="font-size:11.5px; line-height:1.6; color:var(--text-muted);">
+                <strong>How to send:</strong> Dial <code>*182*8*1*174118#</code> on MTN (or select pay merchant 174118 via your mobile provider wallet). Verify the recipient name displays as <strong>Beyond Justice Initiative</strong> before entering your PIN.
+              </div>
             </div>
-            <div style="font-size:11px;color:var(--mut);font-style:italic;margin-bottom:10px;">✓ Accepted on both MTN MoMo &amp; Airtel Money</div>
-            <div style="font-size:11px;font-weight:600;color:var(--txt);margin-bottom:8px;">How to Send MoMo:</div>
-            <ol style="font-size:11px;line-height:1.8;color:var(--txt);margin-left:20px;margin-bottom:0;">
-              <li>Dial <strong>*182*8*1*174118#</strong> (MTN) or <strong>*182#</strong> (Airtel) on your phone</li>
-              <li>Select Send Money → To a Code</li>
-              <li>Enter code <strong>174118</strong> — confirm it Ephrem</li>
-              <li>Enter your amount and confirm with your PIN</li>
-              <li>You'll receive a confirmation SMS. <strong>Thank you 💛</strong></li>
-            </ol>
+
+            <!-- Bank Transfer Card -->
+            <div class="card" style="border-top: 4px solid var(--royal); flex: 1;">
+              <div class="ct" style="margin-bottom:12px; font-size:14.5px; display:flex; align-items:center; gap:8px; color:var(--navy);">
+                🏛️ Institutional Bank Transfer
+              </div>
+              <p style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">For wire transfers, corporate sponsorships, and international donations.</p>
+              
+              <div style="background:var(--light); border:1px solid var(--border-color); border-radius:8px; padding:12px 16px; font-size:13px; display:flex; flex-direction:column; gap:6px;">
+                <div style="display:flex; justify-content:space-between;">
+                  <span style="color:var(--text-muted);">Bank:</span>
+                  <strong style="color:var(--navy);">Bank of Kigali (BK)</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                  <span style="color:var(--text-muted);">Account Name:</span>
+                  <strong style="color:var(--navy);">Beyond Justice Initiative (BJI)</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                  <span style="color:var(--text-muted);">Account Number:</span>
+                  <strong style="font-family:'JetBrains Mono',monospace; color:var(--navy);">100078945612-42</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                  <span style="color:var(--text-muted);">Swift Code:</span>
+                  <strong style="font-family:'JetBrains Mono',monospace; color:var(--navy);">BKIGRW</strong>
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          <div class="card" style="background:linear-gradient(135deg,rgba(239,68,68,.05) 0%,rgba(239,68,68,.1) 100%);border-left:4px solid var(--err);">
-            <div class="ct" style="margin-bottom:12px;font-size:13px;color:var(--err);">💛 Your Impact</div>
-            <div class="brow" style="margin-bottom:8px;">
-              <div class="blbl">
-                <span><strong>5,000 RWF</strong></span>
-                <span style="font-size:10px;color:var(--mut);">Transport</span>
+          <!-- Column 2: Operations Support Tiers -->
+          <div class="card" style="border-top: 4px solid var(--accent-gold); display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div class="ct" style="margin-bottom:14px; font-size:14.5px; color:var(--navy);">📋 Operational Allocation Tiers</div>
+              <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">We allocate every contribution transparently across our active field projects:</p>
+              
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                  <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                    <span style="font-size:13.5px; font-weight:700; color:var(--navy);">Field Validation Sponsorship</span>
+                    <strong style="color:var(--ok); font-size:13px;">5,000 RWF</strong>
+                  </div>
+                  <div style="font-size:12px; color:var(--text-muted);">Covers transportation and case documentation logistics for one volunteer follow-up visit.</div>
+                </div>
+
+                <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                  <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                    <span style="font-size:13.5px; font-weight:700; color:var(--navy);">Academic Reintegration Fund</span>
+                    <strong style="color:var(--ok); font-size:13px;">15,000 RWF</strong>
+                  </div>
+                  <div style="font-size:12px; color:var(--text-muted);">Provides school materials, exercise books, uniforms, and schooling packs for a child for one month.</div>
+                </div>
+
+                <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                  <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                    <span style="font-size:13.5px; font-weight:700; color:var(--navy);">Nutrition &amp; Referral Support</span>
+                    <strong style="color:var(--ok); font-size:13px;">25,000 RWF</strong>
+                  </div>
+                  <div style="font-size:12px; color:var(--text-muted);">Funds critical medical referrals, check-ups, and pediatric nutrition packs for stunted infants.</div>
+                </div>
+
+                <div>
+                  <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                    <span style="font-size:13.5px; font-weight:700; color:var(--navy);">Comprehensive Case Sponsorship</span>
+                    <strong style="color:var(--ok); font-size:13px;">100,000 RWF</strong>
+                  </div>
+                  <div style="font-size:12px; color:var(--text-muted);">Supports complete legal tracking, school reintegration, and health monitoring for a case over 3 months.</div>
+                </div>
               </div>
-              <div style="font-size:11px;color:var(--txt);">Covers transport for one field follow-up visit</div>
-            </div>
-            <div class="brow" style="margin-bottom:8px;">
-              <div class="blbl">
-                <span><strong>15,000 RWF</strong></span>
-                <span style="font-size:10px;color:var(--mut);">Materials</span>
-              </div>
-              <div style="font-size:11px;color:var(--txt);">Provides school materials for one child for a month</div>
-            </div>
-            <div class="brow" style="margin-bottom:8px;">
-              <div class="blbl">
-                <span><strong>25,000 RWF</strong></span>
-                <span style="font-size:10px;color:var(--mut);">Health</span>
-              </div>
-              <div style="font-size:11px;color:var(--txt);">Funds one health referral and follow-up</div>
-            </div>
-            <div class="brow">
-              <div class="blbl">
-                <span><strong>100,000 RWF</strong></span>
-                <span style="font-size:10px;color:var(--mut);">Full Case</span>
-              </div>
-              <div style="font-size:11px;color:var(--txt);">Supports full case documentation and 3-month follow-up</div>
             </div>
           </div>
+
         </div>
 
         <!-- Transparency Commitment -->
-        <div class="card" style="background:var(--light);border-left:4px solid var(--accent);">
-          <div class="ct" style="margin-bottom:12px;font-size:13px;color:var(--navy);">🔒 Transparency Commitment</div>
-          <div style="font-size:12px;line-height:1.8;color:var(--txt);margin-bottom:12px;">
-            All donations received through this system go directly to field operations — follow-up visits, school support materials, health referrals, and documentation. <strong>Beyond Justice Initiative is committed to full financial transparency with our donors and partners.</strong>
-          </div>
-          <div style="font-size:11px;color:var(--mut);background:#fff;border:1px solid var(--brd);border-radius:6px;padding:10px;">
-            For donation receipts or financial accountability inquiries: <a href="mailto:info@beyondjustice.org" style="color:var(--accent);font-weight:600;">info@beyondjustice.org</a>
+        <div class="card" style="background: var(--light); border-left: 4px solid var(--navy); margin-bottom: 32px;">
+          <div class="ct" style="margin-bottom:8px; font-size:13.5px; color:var(--navy);">🔒 Transparency &amp; Ethical Guarantee</div>
+          <p style="font-size:12.5px; line-height:1.7; color:var(--text-dark); margin-bottom:10px;">
+            Beyond Justice Initiative operates under strict compliance audits. All donations are utilized exclusively for field logistics, case documentation, and direct beneficiary support (fees, nutrition, and transport). We publish periodic accountability reports and maintain a zero-overhead policy for voluntary staff.
+          </p>
+          <div style="font-size:11.5px; color:var(--text-muted);">
+            For donation audits or formal receipts, contact our operations desk at: <a href="mailto:info@beyondjustice.org" style="color:var(--royal); font-weight:600;">info@beyondjustice.org</a>
           </div>
         </div>
       </div>
