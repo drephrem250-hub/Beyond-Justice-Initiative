@@ -5,256 +5,1074 @@
 <link rel="manifest" href="manifest.json">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Rinda Umwana – Beyond Justice Initiative. A youth-led system tracking legal accountability and support for teen mothers and children in Huye District, Rwanda.">
-<meta name="author" content="Beyond Justice Initiative – GLF Huye">
+<meta name="author" content="Beyond Justice Initiative">
 <meta name="theme-color" content="#0B2545">
 <meta property="og:title" content="Rinda Umwana – Beyond Justice Initiative">
 <meta property="og:description" content="Tracking justice, support, and accountability for teen mothers and children in Rwanda.">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<title>Rinda Umwana – Beyond Justice Initiative</title>
+<title>Beyond Justice Initiative (Rinda Mwana) — Rwanda</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#0B2545;--deep:#134074;--royal:#1B5E99;--sky:#3498DB;
-  --accent:#E8A020;--gold:#C8860A;
-  --ok:#1A7A4A;--err:#C0392B;--warn:#E67E22;--pur:#6C3483;
-  --light:#F4F8FB;--brd:#DDE5EE;--txt:#1A2332;--mut:#7A8B9A;
-  --shd:0 2px 10px rgba(11,37,69,.08);
+  --navy: #0B2545;
+  --deep: #134074;
+  --royal: #1B5E99;
+  --sky: #2E86C1;
+  --accent: #E8A020;
+  --gold: #D4890A;
+  --light: #F4F8FB;
+  --brd: #E2E8F0;
+  --txt: #1E293B;
+  --mut: #64748B;
+  --white: #FFFFFF;
+  --ok: #10B981;
+  --err: #EF4444;
+  --warn: #F59E0B;
+  --pur: #8B5CF6;
+  --shd: 0 4px 20px -2px rgba(11, 37, 69, 0.07), 0 2px 8px -1px rgba(11, 37, 69, 0.04);
+  --shd-hover: 0 20px 25px -5px rgba(11, 37, 69, 0.1), 0 10px 10px -5px rgba(11, 37, 69, 0.04);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:var(--light);color:var(--txt);font-size:14px;line-height:1.6;}
+body{
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--white);
+  color: var(--txt);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
 .gone{display:none!important;}
 
-/* ── NAV (identical on every page/role) ── */
+/* ── NAV (Premium Institutional Navbar) ── */
 #nav{
-  background:var(--navy);height:56px;padding:0 20px;
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:900;
-  box-shadow:0 2px 16px rgba(0,0,0,.3);
+  background: rgba(11, 37, 69, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  height: 70px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
 }
-.nav-brand{display:flex;align-items:center;gap:10px;cursor:pointer;}
-.nav-logo{width:32px;height:32px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--navy);}
-.nav-title{font-family:'DM Serif Display',serif;font-size:15px;color:#fff;}
-.nav-title b{color:var(--accent);}
-.nav-mid{display:flex;align-items:center;gap:4px;}
-.ntab{padding:5px 13px;border-radius:6px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:rgba(255,255,255,.6);cursor:pointer;transition:.15s;text-decoration:none;}
-.ntab:hover{color:#fff;background:rgba(255,255,255,.1);}
-.ntab.act{background:var(--accent);color:var(--navy);font-weight:700;}
-.nav-bread{font-size:12px;color:rgba(255,255,255,.5);background:rgba(255,255,255,.07);padding:4px 12px;border-radius:5px;}
-.nav-right{display:flex;align-items:center;gap:8px;}
-.btn-lang{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:4px 11px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;}
-.btn-lang:hover{background:rgba(255,255,255,.2);}
-.btn-login{background:var(--accent);color:var(--navy);border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;}
-.btn-login:hover{background:var(--gold);}
-.user-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:4px 12px 4px 5px;border-radius:18px;}
-.user-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;}
+.nav-brand{display:flex;align-items:center;gap:12px;cursor:pointer;}
+.nav-logo{
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--gold) 100%);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--navy);
+  box-shadow: 0 4px 12px rgba(232, 160, 32, 0.3);
+  transition: transform 0.3s ease;
+}
+.nav-brand:hover .nav-logo {
+  transform: rotate(-5deg) scale(1.05);
+}
+.nav-title{
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+.nav-title b{color:var(--accent); font-weight: 800;}
+.nav-mid{display:flex;align-items:center;gap:8px;}
+.ntab{
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.ntab:hover{
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+}
+.ntab.act{
+  background: var(--accent);
+  color: var(--navy);
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(232, 160, 32, 0.2);
+}
+.nav-bread{
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.08);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.btn-lang{
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-lang:hover{
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.btn-login{
+  background: linear-gradient(135deg, var(--accent) 0%, var(--gold) 100%);
+  color: var(--navy);
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(232, 160, 32, 0.2);
+  transition: all 0.2s;
+}
+.btn-login:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(232, 160, 32, 0.3);
+}
+.user-chip{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 4px 14px 4px 6px;
+  border-radius: 24px;
+}
+.user-av{
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+}
 .av-admin{background:var(--err);}
 .av-coordinator{background:var(--royal);}
 .av-volunteer{background:var(--ok);}
-.user-name{font-size:12px;font-weight:600;color:#fff;}
-.user-role{font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;}
-.btn-logout{background:rgba(192,57,43,.2);border:1px solid rgba(192,57,43,.4);color:#F1948A;padding:4px 11px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;}
-.btn-logout:hover{background:var(--err);color:#fff;}
+.user-name{font-size: 12px; font-weight: 600; color: #fff;}
+.user-role{font-size: 9px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.5px;}
+.btn-logout{
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #F87171;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-logout:hover{
+  background: var(--err);
+  color: #fff;
+  border-color: var(--err);
+}
 
 /* ── PAGES ── */
-.page{display:none;}.page.show{display:block;}
+.page{display:none; opacity: 0; transition: opacity 0.3s ease; }
+.page.show{display:block; opacity: 1; }
 
 /* ── LOGIN MODAL ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(11,37,69,.8);z-index:999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px);}
-.login-card{background:#fff;border-radius:14px;padding:36px;width:380px;max-width:95vw;animation:pop .22s ease;}
-@keyframes pop{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
-.login-icon{width:50px;height:50px;background:var(--navy);border-radius:12px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:22px;}
-.login-h{font-family:'DM Serif Display',serif;font-size:22px;color:var(--navy);text-align:center;margin-bottom:3px;}
-.login-sub{font-size:12px;color:var(--mut);text-align:center;margin-bottom:18px;}
+.modal-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 37, 69, 0.85);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+}
+.login-card{
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  width: 400px;
+  max-width: 95vw;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--brd);
+  animation: pop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes pop{
+  from{opacity:0;transform:scale(0.95) translateY(10px);}
+  to{opacity:1;transform:scale(1) translateY(0);}
+}
+.login-icon{
+  width: 56px;
+  height: 56px;
+  background: var(--light);
+  border-radius: 12px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  border: 1px solid var(--brd);
+}
+.login-h{
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--navy);
+  text-align: center;
+  margin-bottom: 4px;
+}
+.login-sub{
+  font-size: 13px;
+  color: var(--mut);
+  text-align: center;
+  margin-bottom: 24px;
+}
 
 /* ── FORMS ── */
-.fg{margin-bottom:12px;}
-.fl{display:block;font-size:10px;font-weight:700;color:var(--navy);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;}
-.fc{width:100%;padding:9px 12px;border:1.5px solid var(--brd);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--txt);background:#fff;outline:none;transition:border .15s;}
-.fc:focus{border-color:var(--royal);box-shadow:0 0 0 3px rgba(27,94,153,.09);}
-textarea.fc{resize:vertical;min-height:72px;}
+.fg{margin-bottom:16px;}
+.fl{
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--deep);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.fc{
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--brd);
+  border-radius: 8px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--txt);
+  background: #fff;
+  outline: none;
+  transition: all 0.2s;
+}
+.fc:focus{
+  border-color: var(--royal);
+  box-shadow: 0 0 0 3.5px rgba(27, 94, 153, 0.12);
+}
+textarea.fc{resize:vertical;min-height:90px;}
 select.fc{cursor:pointer;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
 
 /* ── BUTTONS ── */
-.btn{padding:9px 18px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:.15s;display:inline-flex;align-items:center;gap:5px;}
-.bp{background:var(--navy);color:#fff;}.bp:hover{background:var(--deep);}
-.ba{background:var(--accent);color:var(--navy);}.ba:hover{background:var(--gold);}
-.bk{background:var(--ok);color:#fff;}.bk:hover{background:#156638;}
-.bd{background:var(--err);color:#fff;}.bd:hover{background:#a53224;}
-.bw{background:var(--warn);color:#fff;}
-.bo{background:transparent;border:1.5px solid var(--brd);color:var(--txt);}.bo:hover{background:var(--light);}
-.bg_{background:transparent;border:none;color:var(--mut);cursor:pointer;padding:5px 8px;border-radius:5px;font-size:12px;font-family:'DM Sans',sans-serif;}.bg_:hover{background:var(--light);color:var(--txt);}
-.bsm{padding:5px 11px;font-size:11px;}
-.bxs{padding:3px 7px;font-size:11px;}
+.btn{
+  padding: 11px 22px;
+  border-radius: 8px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  letter-spacing: 0.2px;
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+.btn:active {
+  transform: translateY(0);
+}
+.bp{
+  background: var(--navy);
+  color: #fff;
+}
+.bp:hover{
+  background: var(--deep);
+  box-shadow: 0 4px 12px rgba(11, 37, 69, 0.15);
+}
+.ba{
+  background: var(--accent);
+  color: var(--navy);
+}
+.ba:hover{
+  background: var(--gold);
+  box-shadow: 0 4px 12px rgba(232, 160, 32, 0.25);
+}
+.bk{
+  background: var(--ok);
+  color: #fff;
+}
+.bk:hover{
+  background: #0D9488;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+.bd{
+  background: var(--err);
+  color: #fff;
+}
+.bd:hover{
+  background: #DC2626;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+.bw{
+  background: var(--warn);
+  color: #fff;
+}
+.bw:hover{
+  background: #D97706;
+}
+.bo{
+  background: transparent;
+  border: 1.5px solid var(--brd);
+  color: var(--txt);
+}
+.bo:hover{
+  background: var(--light);
+  border-color: var(--mut);
+}
+.bg_{
+  background: transparent;
+  border: none;
+  color: var(--mut);
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.bg_:hover{
+  background: var(--light);
+  color: var(--txt);
+}
+.bsm{padding:7px 14px;font-size:12px;}
+.bxs{padding:4px 8px;font-size:11px;}
 .bblk{width:100%;justify-content:center;}
 
 /* ── CARDS ── */
-.card{background:#fff;border:1px solid var(--brd);border-radius:10px;padding:18px;box-shadow:var(--shd);}
-.ct{font-weight:700;color:var(--navy);font-size:13px;margin-bottom:6px;}
-.cb{color:var(--mut);font-size:12px;}
-.kcard{background:#fff;border:1px solid var(--brd);border-radius:10px;padding:18px;text-align:center;box-shadow:var(--shd);}
-.knum{font-family:'DM Serif Display',serif;font-size:30px;color:var(--navy);display:block;}
-.klbl{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+.card{
+  background: #fff;
+  border: 1px solid var(--brd);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shd);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card:hover{
+  box-shadow: var(--shd-hover);
+}
+.ct{
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.cb{
+  color: var(--mut);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.kcard{
+  background: #fff;
+  border: 1px solid var(--brd);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: var(--shd);
+  transition: transform 0.3s ease;
+}
+.kcard:hover {
+  transform: translateY(-2px);
+}
+.knum{
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--navy);
+  display: block;
+}
+.klbl{
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mut);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
 
 /* ── BADGES ── */
-.bge{display:inline-block;padding:2px 9px;border-radius:11px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
-.b-bl{background:#D6EAF8;color:var(--deep);}
-.b-go{background:#FEF9E7;color:var(--gold);border:1px solid #F9CA74;}
-.b-gn{background:#EAFAF1;color:var(--ok);}
-.b-rd{background:#FDEDEC;color:var(--err);}
-.b-gy{background:var(--light);color:var(--mut);}
-.b-wn{background:#FEF5EC;color:var(--warn);}
-.b-pu{background:#F4ECF7;color:var(--pur);}
+.bge{
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.b-bl{background: rgba(27, 94, 153, 0.1); color: var(--royal);}
+.b-go{background: rgba(232, 160, 32, 0.15); color: var(--gold); border: 1px solid rgba(232, 160, 32, 0.3);}
+.b-gn{background: rgba(16, 185, 129, 0.1); color: var(--ok);}
+.b-rd{background: rgba(239, 68, 68, 0.1); color: var(--err);}
+.b-gy{background: var(--light); color: var(--mut);}
+.b-wn{background: rgba(245, 158, 11, 0.1); color: var(--warn);}
+.b-pu{background: rgba(139, 92, 246, 0.1); color: var(--pur);}
 
 /* ── ALERTS ── */
-.al{padding:10px 14px;border-radius:7px;font-size:12px;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
-.al-ok{background:#EAFAF1;color:var(--ok);border:1px solid #A9DFBF;}
-.al-er{background:#FDEDEC;color:var(--err);border:1px solid #F1948A;}
-.al-in{background:#EBF5FB;color:var(--deep);border:1px solid #AED6F1;}
-.al-wn{background:#FEF5EC;color:var(--warn);border:1px solid #F0B27A;}
+.al{
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.al-ok{background: rgba(16, 185, 129, 0.08); color: #065F46; border: 1.5px solid rgba(16, 185, 129, 0.2);}
+.al-er{background: rgba(239, 68, 68, 0.08); color: #991B1B; border: 1.5px solid rgba(239, 68, 68, 0.2);}
+.al-in{background: rgba(27, 94, 153, 0.08); color: #1E3A8A; border: 1.5px solid rgba(27, 94, 153, 0.2);}
+.al-wn{background: rgba(245, 158, 11, 0.08); color: #92400E; border: 1.5px solid rgba(245, 158, 11, 0.2);}
 
 /* ── BAR CHARTS ── */
-.brow{margin:8px 0;}
-.blbl{font-size:11px;color:var(--mut);margin-bottom:3px;display:flex;justify-content:space-between;}
-.btrk{background:var(--light);border-radius:3px;height:9px;overflow:hidden;}
-.bfil{height:100%;border-radius:3px;transition:width .7s ease;}
-.f-bl{background:var(--royal);}
-.f-go{background:var(--accent);}
-.f-rd{background:var(--err);}
-.f-gn{background:var(--ok);}
+.brow{margin:12px 0;}
+.blbl{
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--mut);
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+.btrk{background: var(--light); border-radius: 4px; height: 10px; overflow: hidden; border: 1px solid var(--brd);}
+.bfil{height: 100%; border-radius: 4px; transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);}
+.f-bl{background: var(--royal);}
+.f-go{background: var(--accent);}
+.f-rd{background: var(--err);}
+.f-gn{background: var(--ok);}
 
 /* ── STEPS ── */
-.steps{display:flex;margin:12px 0 20px;}
-.step{flex:1;text-align:center;font-size:10px;color:var(--mut);}
-.step::before{content:'';display:block;height:3px;background:var(--brd);margin-bottom:5px;}
+.steps{display:flex;margin:16px 0 24px;}
+.step{flex:1;text-align:center;font-size: 11px; font-weight: 600; color:var(--mut); position: relative; padding-top: 10px;}
+.step::before{
+  content:'';
+  display:block;
+  height: 4px;
+  background: var(--brd);
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  border-radius: 2px;
+}
 .step.done::before{background:var(--ok);}
 .step.cur::before{background:var(--accent);}
 .step.done{color:var(--ok);}
-.step.cur{color:var(--accent);font-weight:700;}
+.step.cur{color:var(--navy);font-weight:700;}
 
 /* ── TABLE ── */
-.tw{overflow-x:auto;}
-table{width:100%;border-collapse:collapse;font-size:12px;}
-thead th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.5px;}
-tbody tr{border-bottom:1px solid var(--brd);transition:background .1s;}
-tbody tr:hover{background:var(--light);}
-tbody td{padding:10px 12px;vertical-align:middle;}
+.tw{
+  overflow-x: auto;
+  border: 1px solid var(--brd);
+  border-radius: 8px;
+}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead th{
+  background: var(--navy);
+  color: #fff;
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+}
+tbody tr{
+  border-bottom: 1px solid var(--brd);
+  transition: background 0.2s;
+}
+tbody tr:last-child {
+  border-bottom: none;
+}
+tbody tr:hover{background: var(--light);}
+tbody td{padding: 12px 16px; vertical-align: middle;}
 
 /* ── SECTION HEADING ── */
-.sh{margin-bottom:18px;}
-.sh-lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:3px;}
-.sh-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy);}
-.sh-desc{color:var(--mut);font-size:12px;margin-top:3px;}
+.sh{margin-bottom: 24px;}
+.sh-lbl{
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.sh-title{font-family: 'Playfair Display', serif; font-size: 28px; color: var(--navy); font-weight: 700;}
+.sh-desc{color: var(--mut); font-size: 13px; margin-top: 4px;}
 
 /* ── SEARCH ROW ── */
-.srow{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-.sinp{flex:1;min-width:180px;padding:8px 12px 8px 32px;border:1.5px solid var(--brd);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%237A8B9A' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 10px center;}
-.sinp:focus{border-color:var(--royal);}
-.sflt{padding:8px 10px;border:1.5px solid var(--brd);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;background:#fff;cursor:pointer;}
+.srow{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.sinp{
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 14px 10px 36px;
+  border: 1.5px solid var(--brd);
+  border-radius: 8px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  outline: none;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;
+  transition: all 0.2s;
+}
+.sinp:focus{border-color: var(--royal); box-shadow: 0 0 0 3px rgba(27, 94, 153, 0.1);}
+.sflt{
+  padding: 10px 14px;
+  border: 1.5px solid var(--brd);
+  border-radius: 8px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  outline: none;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sflt:focus{border-color: var(--royal);}
 
 /* ── PUBLIC HERO ── */
-.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--deep) 55%,var(--royal) 100%);padding:64px 24px;text-align:center;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;top:-70px;right:-70px;width:320px;height:320px;background:rgba(232,160,32,.07);border-radius:50%;}
-.hero-kiny{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;font-weight:600;position:relative;z-index:1;}
-.hero-title{font-family:'DM Serif Display',serif;font-size:42px;color:#fff;line-height:1.1;margin-bottom:7px;position:relative;z-index:1;}
-.hero-title em{color:var(--accent);font-style:normal;}
-.hero-sub{color:rgba(255,255,255,.7);font-size:14px;max-width:520px;margin:0 auto 24px;position:relative;z-index:1;}
-.hero-tag{display:inline-block;background:rgba(232,160,32,.14);border:1px solid var(--accent);color:var(--accent);padding:8px 24px;border-radius:24px;font-size:12px;font-weight:600;position:relative;z-index:1;}
-.statbar{background:#fff;border-bottom:1px solid var(--brd);display:grid;grid-template-columns:repeat(5,1fr);}
-.sitem{padding:18px 14px;text-align:center;border-right:1px solid var(--brd);}
+.hero{
+  background: linear-gradient(135deg, var(--navy) 0%, var(--deep) 50%, var(--royal) 100%);
+  padding: 96px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid var(--accent);
+}
+.hero::before{
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 450px; height: 450px;
+  background: rgba(232, 160, 32, 0.08);
+  border-radius: 50%;
+  filter: blur(40px);
+}
+.hero::after{
+  content: '';
+  position: absolute;
+  bottom: -100px; left: -100px;
+  width: 350px; height: 350px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 50%;
+  filter: blur(30px);
+}
+.hero-kiny{
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+}
+.hero-title{
+  font-family: 'Playfair Display', serif;
+  font-size: 54px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-title em{
+  color: var(--accent);
+  font-style: italic;
+  font-weight: 900;
+}
+.hero-sub{
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 17px;
+  max-width: 720px;
+  margin: 0 auto 32px;
+  position: relative;
+  z-index: 1;
+  line-height: 1.8;
+  font-weight: 400;
+}
+.hero-tag{
+  display: inline-block;
+  background: rgba(232, 160, 32, 0.12);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 10px 28px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.5px;
+}
+.hero-ctas{
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+  flex-wrap: wrap;
+}
+
+/* ── STATBAR ── */
+.statbar{
+  background: #fff;
+  border-bottom: 1.5px solid var(--brd);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+.sitem{
+  padding: 24px 16px;
+  text-align: center;
+  border-right: 1.5px solid var(--brd);
+}
 .sitem:last-child{border-right:none;}
-.snum{font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy);display:block;}
-.slbl{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin-top:1px;}
-.pub-wrap{max-width:1080px;margin:0 auto;padding:28px 22px;}
-.pub-sec{padding:4px 0;}
+.snum{
+  font-family: 'Playfair Display', serif;
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--navy);
+  display: block;
+}
+.slbl{
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mut);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+.pub-wrap{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+.pub-sec{padding:10px 0;}
 
 /* ── PRIVATE LAYOUT ── */
-.priv-layout{display:flex;min-height:calc(100vh - 56px);}
+.priv-layout{display:flex;min-height:calc(100vh - 70px);}
 
 /* SIDEBAR */
 .sidebar{
-  width:220px;background:var(--navy);
-  padding:14px 0;flex-shrink:0;
-  position:sticky;top:56px;
-  height:calc(100vh - 56px);
-  overflow-y:auto;
-  display:flex;flex-direction:column;
+  width: 240px;
+  background: var(--navy);
+  padding: 20px 0;
+  flex-shrink: 0;
+  position: sticky;
+  top: 70px;
+  height: calc(100vh - 70px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.08);
 }
-.sb-sec{padding:0 10px 8px;}
-.sb-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.3);padding:10px 4px 5px;font-weight:700;}
+.sb-sec{padding: 0 14px 16px;}
+.sb-lbl{
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 12px 8px 6px;
+  font-weight: 700;
+}
 .sb-item{
-  display:flex;align-items:center;gap:8px;
-  padding:8px 10px;border-radius:7px;cursor:pointer;
-  color:rgba(255,255,255,.6);font-size:12px;font-weight:500;
-  transition:.12s;margin-bottom:1px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: all 0.2s;
+  margin-bottom: 2px;
 }
-.sb-item:hover{background:rgba(255,255,255,.08);color:#fff;}
-.sb-item.act{background:var(--accent);color:var(--navy);font-weight:700;}
-.sb-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0;}
-.sb-badge{margin-left:auto;background:var(--err);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:9px;}
-.sb-foot{padding:10px;border-top:1px solid rgba(255,255,255,.1);margin-top:auto;}
-.sb-foot-role{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);font-weight:700;}
-.sb-foot-name{font-size:12px;color:#fff;font-weight:600;margin-top:1px;}
+.sb-item:hover{
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+.sb-item.act{
+  background: var(--accent);
+  color: var(--navy);
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(232, 160, 32, 0.2);
+}
+.sb-icon{font-size: 16px; width: 20px; text-align: center; flex-shrink: 0;}
+.sb-badge{
+  margin-left: auto;
+  background: var(--err);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+.sb-foot{
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: auto;
+  background: rgba(0, 0, 0, 0.15);
+}
+.sb-foot-role{
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  font-weight: 700;
+}
+.sb-foot-name{
+  font-size: 13px;
+  color: #fff;
+  font-weight: 600;
+  margin-top: 2px;
+}
 
 /* MAIN */
-.main-area{flex:1;padding:22px;overflow-x:hidden;min-width:0;}
+.main-area{
+  flex: 1;
+  padding: 32px;
+  overflow-x: hidden;
+  min-width: 0;
+  background: var(--light);
+}
 
 /* VIEWS */
-.view{display:none;animation:fadeIn .2s ease;}
+.view{display:none;animation:fadeIn 0.25s ease-out;}
 .view.show{display:block;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
 /* DETAIL GRID */
-.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
-.det-item label{display:block;font-size:10px;color:var(--mut);font-weight:600;}
-.det-item span{font-size:12px;color:var(--txt);font-weight:500;}
-.det-sec{border-bottom:1px solid var(--brd);padding:12px 0;}
+.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.det-item label{display:block;font-size:11px;color:var(--mut);font-weight:600;text-transform: uppercase;letter-spacing: 0.5px;}
+.det-item span{font-size:13.5px;color:var(--txt);font-weight:600;}
+.det-sec{border-bottom:1.5px solid var(--brd);padding:16px 0;}
 .det-sec:last-child{border-bottom:none;}
-.det-sec h4{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--accent);font-weight:700;margin-bottom:8px;}
+.det-sec h4{
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
 
 /* MODAL */
-.mod-bg{position:fixed;inset:0;background:rgba(11,37,69,.65);z-index:800;display:flex;align-items:flex-start;justify-content:center;padding:24px 14px;overflow-y:auto;backdrop-filter:blur(3px);}
-.mod-box{background:#fff;border-radius:14px;width:680px;max-width:100%;padding:28px;box-shadow:0 20px 55px rgba(0,0,0,.22);animation:pop .22s ease;}
-.mod-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
-.mod-title{font-family:'DM Serif Display',serif;font-size:19px;color:var(--navy);}
-.mod-sub{font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;font-weight:700;}
-.mod-close{background:var(--light);border:none;border-radius:5px;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;}
-.mod-close:hover{background:var(--brd);}
+.mod-bg{
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 37, 69, 0.75);
+  z-index: 800;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+  overflow-y: auto;
+  backdrop-filter: blur(4px);
+}
+.mod-box{
+  background: #fff;
+  border-radius: 16px;
+  width: 720px;
+  max-width: 100%;
+  padding: 32px;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);
+  border: 1px solid var(--brd);
+  animation: pop 0.25s ease-out;
+}
+.mod-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;}
+.mod-title{font-family: 'Playfair Display', serif; font-size: 22px; color: var(--navy); font-weight: 700;}
+.mod-sub{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;}
+.mod-close{
+  background: var(--light);
+  border: none;
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.mod-close:hover{background: var(--brd); color: var(--err);}
 
-::-webkit-scrollbar{width:5px;height:5px;}
+/* ── PARTNERS GRID ── */
+.partner-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.partner-logo-card {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1.5px solid var(--brd);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 13px;
+  box-shadow: var(--shd);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+.partner-logo-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 15px -3px rgba(232, 160, 32, 0.15);
+  background: #fff;
+}
+.partner-cat {
+  font-size: 10px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+::-webkit-scrollbar{width:6px;height:6px;}
 ::-webkit-scrollbar-track{background:var(--light);}
 ::-webkit-scrollbar-thumb{background:var(--brd);border-radius:3px;}
 
 /* ── FOOTER ── */
 .footer{
-  background:var(--navy);color:#fff;padding:32px 24px;margin-top:40px;
-  border-top:1px solid rgba(255,255,255,.1);
+  background: var(--navy);
+  color: #fff;
+  padding: 48px 40px 32px;
+  margin-top: 60px;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.08);
 }
-.footer-wrap{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:28px;}
-.footer-sec h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:12px;}
-.footer-sec p,.footer-sec li{font-size:12px;line-height:1.8;color:rgba(255,255,255,.75);margin-bottom:6px;}
+.footer-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(2, 1fr);gap:40px;}
+.footer-sec h4{
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+.footer-sec p, .footer-sec li{font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.7);margin-bottom:8px;}
 .footer-sec ul{list-style:none;padding:0;margin:0;}
-.footer-sec a{color:var(--accent);text-decoration:none;transition:.15s;}
+.footer-sec a{color:var(--accent);text-decoration:none;transition:color 0.2s;}
 .footer-sec a:hover{color:#fff;text-decoration:underline;}
-.footer-bottom{max-width:1080px;margin:20px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;font-size:11px;color:rgba(255,255,255,.6);}
-.footer-social{display:flex;gap:12px;margin-top:12px;}
-.footer-social a{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.1);transition:.15s;}
-.footer-social a:hover{background:var(--accent);color:var(--navy);}
+.footer-bottom{
+  max-width:1200px;
+  margin: 32px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+}
+.footer-social{display:flex;gap:12px;margin-top:16px;}
+.footer-social a{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+.footer-social a:hover{
+  background: var(--accent);
+  color: var(--navy);
+  transform: translateY(-2px);
+}
+
+/* ── 7-STEP ENGINE INTERACTIVE COMPONENT ── */
+.engine-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0;
+}
+.engine-step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--white);
+  border: 1.5px solid var(--brd);
+  border-radius: 8px;
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.engine-step::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--brd);
+  transition: background 0.25s;
+}
+.engine-step:hover {
+  transform: translateX(4px);
+  border-color: var(--royal);
+  box-shadow: var(--shd);
+}
+.engine-step.active::before {
+  background: var(--accent);
+}
+.engine-step.active {
+  border-color: var(--navy);
+  background: var(--light);
+}
+.engine-num {
+  width: 28px;
+  height: 28px;
+  background: var(--navy);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.engine-step.active .engine-num {
+  background: var(--accent);
+  color: var(--navy);
+}
+.engine-text {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--navy);
+  flex-grow: 1;
+}
+.engine-desc-panel {
+  background: #fff;
+  border: 1.5px solid var(--navy);
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: var(--shd);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 200px;
+  position: sticky;
+  top: 90px;
+}
+.engine-panel-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--navy);
+  margin-bottom: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.engine-panel-body {
+  font-size: 14px;
+  color: var(--txt);
+  line-height: 1.7;
+}
 
 @media(max-width:768px){
   .statbar{grid-template-columns:repeat(2,1fr);}
   .g2,.g3,.g4{grid-template-columns:1fr;}
-  .sidebar{width:50px;}
-  .sb-item span,.sb-lbl,.sb-foot{display:none;}
-  .hero-title{font-size:28px;}
+  .sidebar{width:60px;}
+  .sb-item span, .sb-lbl, .sb-foot{display:none;}
+  .hero-title{font-size:36px;}
   .nav-title{display:none;}
   .footer-wrap{grid-template-columns:1fr;}
+  #nav{padding:0 20px;}
+}
+
+/* Toggle Switch Styles */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #cbd5e1;
+  transition: .4s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+input:checked + .slider {
+  background-color: var(--accent);
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--accent);
+}
+input:checked + .slider:before {
+  transform: translateX(24px);
+  background-color: var(--navy);
 }
 </style>
 <!-- Firebase SDKs -->
@@ -267,8 +1085,8 @@ tbody td{padding:10px 12px;vertical-align:middle;}
 <!-- ══════════════════ NAV (always visible, identical for all) ══════════════════ -->
 <nav id="nav">
   <div class="nav-brand" onclick="goHome()">
-    <div class="nav-logo">RM</div>
-    <div class="nav-title">Rinda Umwana &nbsp;·&nbsp; <b>Beyond Justice</b></div>
+    <div class="nav-logo">BJI</div>
+    <div class="nav-title">Beyond Justice Initiative &nbsp;·&nbsp; <b>Rinda Mwana</b></div>
   </div>
 
   <div class="nav-mid">
@@ -324,83 +1142,345 @@ tbody td{padding:10px 12px;vertical-align:middle;}
 
 <!-- ══════════════════ PUBLIC PAGE ══════════════════ -->
 <div class="page show" id="pubPage">
+  <!-- HERO SECTION -->
   <div class="hero">
-    <div class="hero-kiny" data-i18n="hero.kiny">Rinda Umwana · Protect the Child</div>
-    <div class="hero-title" data-i18n="hero.title">Beyond <em>Justice</em><br>Initiative</div>
-    <div class="hero-sub" data-i18n="hero.sub">A youth-led system tracking accountability and support for teen mothers and their children in Rwanda</div>
-    <div class="hero-tag" data-i18n="hero.tag">⚖️ Justice doesn't end in court — it must continue in real life</div>
+    <div class="hero-kiny" data-i18n="hero.kiny">Rinda Mwana · Beyond Justice Initiative</div>
+    <div class="hero-title" data-i18n="hero.title">
+      Justice should not end in court —<br>it must continue in <em>real life</em>.
+    </div>
+    <div class="hero-sub" data-i18n="hero.sub">
+      A youth-led, data-driven accountability and support system tracking court-ordered child support, breaking school dropout links, and ensuring lived justice for teen mothers and their children in Rwanda.
+    </div>
+    <div class="hero-ctas">
+      <button class="btn ba" onclick="document.getElementById('secure-intake').scrollIntoView({behavior: 'smooth'})">
+        📋 Report a Case / Track an Order
+      </button>
+      <button class="btn bo" style="color:#fff; border-color:#fff;" onclick="switchPub('getin', document.getElementById('pubTabs').children[5])">
+        🤝 Partner with Us / View Evidence
+      </button>
+    </div>
   </div>
+
+  <!-- STAT BAR -->
   <div class="statbar">
     <div class="sitem"><span class="snum" id="ps1">0</span><div class="slbl" data-i18n="stat.cases">Cases Tracked</div></div>
     <div class="sitem"><span class="snum" id="ps2">0</span><div class="slbl" data-i18n="stat.mothers">Mothers Supported</div></div>
     <div class="sitem"><span class="snum" id="ps3">0%</span><div class="slbl" data-i18n="stat.school">School Reintegration</div></div>
     <div class="sitem"><span class="snum" id="ps4">0%</span><div class="slbl" data-i18n="stat.support">Support Enforced</div></div>
-    <div class="sitem"><span class="snum">Huye</span><div class="slbl" data-i18n="stat.district">District</div></div>
+    <div class="sitem"><span class="snum">Huye</span><div class="slbl" data-i18n="stat.district">Pilot District</div></div>
   </div>
+
   <div class="pub-wrap">
-    <!-- overview -->
+    <!-- OVERVIEW TAB -->
     <div class="pub-sec" id="pub-overview">
-      <!-- The Core Problem -->
-      <div class="card" style="background:linear-gradient(135deg,var(--navy) 0%,var(--deep) 100%);color:#fff;border:none;margin-bottom:24px;padding:24px;">
-        <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.7);font-weight:700;margin-bottom:8px;">The Core Problem</div>
-        <div style="font-family:'DM Serif Display',serif;font-size:22px;line-height:1.3;margin-bottom:14px;color:#fff;font-weight:700;">
-          "Justice ends in the courtroom. The burden continues at home."
+      <!-- Problem & Innovation Split Grid -->
+      <div class="g2" style="margin-bottom:48px; align-items: stretch;">
+        <!-- Left: The Justice Gap -->
+        <div class="card" style="background: linear-gradient(135deg, var(--navy) 0%, var(--deep) 100%); color:#fff; border:none; display:flex; flex-direction:column; justify-content:space-between; padding:32px;">
+          <div>
+            <div style="font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--accent); font-weight:700; margin-bottom:12px;">The Systemic Blind Spot</div>
+            <h3 style="font-family:'Playfair Display',serif; font-size:28px; line-height:1.25; margin-bottom:18px; color:#fff;">The Justice Gap</h3>
+            <p style="font-size:14.5px; line-height:1.7; color:rgba(255,255,255,0.9); margin-bottom:16px;">
+              In Rwanda, statutory rape trials are pursued with high legal resolve, and court judgments routinely order perpetrators to pay child support.
+            </p>
+            <p style="font-size:14.5px; line-height:1.7; color:rgba(255,255,255,0.9);">
+              However, **once the trial ends, post-judgment follow-up is non-existent**. Without enforcement, court orders are ignored, leaving the young mother to bear the economic, physical, and psychological burden alone. This breaks her education link, forces school dropouts, and stunts the child's development.
+            </p>
+          </div>
+          <div class="al al-wn" style="background:rgba(245, 158, 11, 0.15); border:1px dashed var(--accent); color:#fff; margin-top:20px; font-size:13px;">
+            ⚠️ **Our Innovation**: We close this gap by building a data-driven accountability pipeline that links legal outcomes to community health workers, local government, and targeted school reintegration.
+          </div>
         </div>
-        <div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.9);">
-          When a verdict is handed down, the system considers its job done. But for a teen mother in Huye — still without support, still out of school, still alone — justice never truly arrived. This is the gap we're addressing: the invisible wall between legal verdicts and real-life support that changes lives.
+
+        <!-- Right: 7-Step Core Engine -->
+        <div class="card" style="padding: 32px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--royal); font-weight:700; margin-bottom:12px;">Our Operational Engine</div>
+            <h3 style="font-family:'Playfair Display',serif; font-size:24px; color:var(--navy); margin-bottom:16px;">The 7-Step Core Pipeline</h3>
+            
+            <div class="g2" style="grid-template-columns: 1.2fr 1fr; gap: 20px;">
+              <div class="engine-container">
+                <div class="engine-step active" onclick="activateEngineStep(1)" id="estep-1">
+                  <span class="engine-num">1</span>
+                  <span class="engine-text">Case Identification</span>
+                </div>
+                <div class="engine-step" onclick="activateEngineStep(2)" id="estep-2">
+                  <span class="engine-num">2</span>
+                  <span class="engine-text">Outcome Mapping</span>
+                </div>
+                <div class="engine-step" onclick="activateEngineStep(3)" id="estep-3">
+                  <span class="engine-num">3</span>
+                  <span class="engine-text">Accountability Track</span>
+                </div>
+                <div class="engine-step" onclick="activateEngineStep(4)" id="estep-4">
+                  <span class="engine-num">4</span>
+                  <span class="engine-text">Gap Diagnosis</span>
+                </div>
+                <div class="engine-step" onclick="activateEngineStep(5)" id="estep-5">
+                  <span class="engine-num">5</span>
+                  <span class="engine-text">Referral Support</span>
+                </div>
+                <div class="engine-step" onclick="activateEngineStep(6)" id="estep-6">
+                  <span class="engine-num">6</span>
+                  <span class="engine-text">Data Aggregation</span>
+                </div>
+                <div class="engine-step" onclick="activateEngineStep(7)" id="estep-7">
+                  <span class="engine-num">7</span>
+                  <span class="engine-text">Advocacy &amp; Reform</span>
+                </div>
+              </div>
+
+              <div class="engine-desc-panel" id="engine-panel">
+                <div class="engine-panel-title">🔎 1. Identification</div>
+                <div class="engine-panel-body">
+                  Field volunteers and community health workers (CHWs) identify teen mother cases in pilot sectors, mapping immediate risks and safety concerns.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="sh" style="margin-top:6px;"><div class="sh-lbl" data-i18n="ovr.lbl">About</div><div class="sh-title" data-i18n="ovr.title">What We Do</div></div>
-      <div class="g3" style="margin-bottom:20px;">
-        <div class="card"><div style="font-size:26px;margin-bottom:8px;">⚖️</div><div class="ct" data-i18n="ovr.c1t">Legal Tracking</div><div class="cb" data-i18n="ovr.c1b">We document court cases and track whether court-ordered support is actually implemented after the verdict.</div></div>
-        <div class="card"><div style="font-size:26px;margin-bottom:8px;">🤝</div><div class="ct" data-i18n="ovr.c2t">Direct Support</div><div class="cb" data-i18n="ovr.c2b">We connect teen mothers and children to schools, health services, counseling, and community programs.</div></div>
-        <div class="card"><div style="font-size:26px;margin-bottom:8px;">📢</div><div class="ct" data-i18n="ovr.c3t">Evidence Advocacy</div><div class="cb" data-i18n="ovr.c3b">We use real field data to advocate for stronger laws that protect vulnerable mothers and children.</div></div>
+      <!-- Strategic Pillars -->
+      <div class="sh" style="text-align: center; margin-bottom:32px;">
+        <div class="sh-lbl">Operational Strategy</div>
+        <div class="sh-title">Our Four Strategic Pillars</div>
+        <div class="sh-desc">Comprehensive wings designed to move teen mothers from victims of injustice to reintegrated, self-sufficient members of society.</div>
       </div>
-      <div class="card">
-        <div class="ct" style="margin-bottom:12px;">📊 The Justice Gap — Live Aggregate Data</div>
-        <div class="brow"><div class="blbl"><span>Cases taken to court</span><span id="pb1v">—</span></div><div class="btrk"><div class="bfil f-bl" id="pb1" style="width:0%"></div></div></div>
-        <div class="brow"><div class="blbl"><span>Support ordered by court</span><span id="pb2v">—</span></div><div class="btrk"><div class="bfil f-go" id="pb2" style="width:0%"></div></div></div>
-        <div class="brow"><div class="blbl"><span>Support actually received</span><span id="pb3v">—</span></div><div class="btrk"><div class="bfil f-rd" id="pb3" style="width:0%"></div></div></div>
-        <div class="brow"><div class="blbl"><span>Mothers back in school</span><span id="pb4v">—</span></div><div class="btrk"><div class="bfil f-gn" id="pb4" style="width:0%"></div></div></div>
+      <div class="g4" style="margin-bottom:48px;">
+        <div class="card" style="border-top: 4px solid var(--navy); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="font-size:28px; margin-bottom:12px;">⚖️</div>
+            <div class="ct">1. Legal Navigation Hub</div>
+            <p class="cb">Monitoring court decisions, verifying support implementation, and coordinating with justice officials and lawyers for civil representation.</p>
+          </div>
+        </div>
+        <div class="card" style="border-top: 4px solid var(--royal); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="font-size:28px; margin-bottom:12px;">🎓</div>
+            <div class="ct">2. Economic Reintegration</div>
+            <p class="cb">Helping teen mothers return to school or join vocational programs by resolving fees, school supplies, and childcare barriers.</p>
+          </div>
+        </div>
+        <div class="card" style="border-top: 4px solid var(--accent); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="font-size:28px; margin-bottom:12px;">📢</div>
+            <div class="ct">3. Anti-Stigma Campaign</div>
+            <p class="cb">Amplifying anonymized survivor testimonies to change local perceptions, decrease stigma, and host community dialogues.</p>
+          </div>
+        </div>
+        <div class="card" style="border-top: 4px solid var(--ok); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="font-size:28px; margin-bottom:12px;">🛡️</div>
+            <div class="ct">4. Prevention &amp; Warning</div>
+            <p class="cb">Creating localized, data-driven safety networks and providing direct access to sexual reproductive health education.</p>
+          </div>
+        </div>
       </div>
+
+      <!-- Impact Metrics Dashboard -->
+      <div class="sh" style="margin-top:20px;"><div class="sh-lbl">NGO Impact Dashboard</div><div class="sh-title">Live Field Metrics &amp; Operational Targets</div></div>
+      <div class="g2" style="margin-bottom:48px;">
+        <!-- Live Firebase Aggregate Progress Bars -->
+        <div class="card">
+          <div class="ct" style="margin-bottom:16px;">📊 Real-time Accountability Progress</div>
+          <div class="brow"><div class="blbl"><span>Cases taken to court</span><span id="pb1v">—</span></div><div class="btrk"><div class="bfil f-bl" id="pb1" style="width:0%"></div></div></div>
+          <div class="brow"><div class="blbl"><span>Support ordered by court</span><span id="pb2v">—</span></div><div class="btrk"><div class="bfil f-go" id="pb2" style="width:0%"></div></div></div>
+          <div class="brow"><div class="blbl"><span>Support actually received</span><span id="pb3v">—</span></div><div class="btrk"><div class="bfil f-rd" id="pb3" style="width:0%"></div></div></div>
+          <div class="brow"><div class="blbl"><span>Mothers back in school</span><span id="pb4v">—</span></div><div class="btrk"><div class="bfil f-gn" id="pb4" style="width:0%"></div></div></div>
+        </div>
+        <!-- NGO Targets Indicators -->
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div class="ct" style="margin-bottom:16px;">🎯 Key Strategic Targets</div>
+          <div class="g2" style="margin-bottom:10px;">
+            <div style="padding: 10px; border: 1.5px solid var(--brd); border-radius: 8px; text-align: center;">
+              <span style="font-family:'Playfair Display',serif; font-size:28px; font-weight:800; color:var(--deep);">40+</span>
+              <div style="font-size:10px; color:var(--mut); text-transform:uppercase; font-weight:700;">Pilot Tracked Cases</div>
+            </div>
+            <div style="padding: 10px; border: 1.5px solid var(--brd); border-radius: 8px; text-align: center;">
+              <span style="font-family:'Playfair Display',serif; font-size:28px; font-weight:800; color:var(--ok);">≥50%</span>
+              <div style="font-size:10px; color:var(--mut); text-transform:uppercase; font-weight:700;">Reintegration Rate</div>
+            </div>
+          </div>
+          <div class="g2">
+            <div style="padding: 10px; border: 1.5px solid var(--brd); border-radius: 8px; text-align: center;">
+              <span style="font-family:'Playfair Display',serif; font-size:28px; font-weight:800; color:var(--warn);">90%</span>
+              <div style="font-size:10px; color:var(--mut); text-transform:uppercase; font-weight:700;">Enforcement Target</div>
+            </div>
+            <div style="padding: 10px; border: 1.5px solid var(--brd); border-radius: 8px; text-align: center;">
+              <span style="font-family:'Playfair Display',serif; font-size:28px; font-weight:800; color:var(--pur);">4+</span>
+              <div style="font-size:10px; color:var(--mut); text-transform:uppercase; font-weight:700;">Policy Briefs (2yrs)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Secure Reporting Intake Portal -->
+      <div id="secure-intake" style="scroll-margin-top: 90px; margin-bottom: 48px;">
+        <div class="sh">
+          <div class="sh-lbl">Case Intake &amp; Tracking Portal</div>
+          <div class="sh-title">Secure Post-Judgment Reporting</div>
+          <div class="sh-desc">Submit an active case or report a child support order non-compliance. Data is handled with strict confidentiality.</div>
+        </div>
+
+        <div class="card" style="border: 1.5px solid var(--navy); border-top: 6px solid var(--navy);">
+          <!-- Privacy Banner -->
+          <div class="al al-in" style="background: rgba(11, 37, 69, 0.05); color: var(--navy); border-color: var(--navy); margin-bottom:20px;">
+            🔒 <strong>CONFIDENTIALITY GUARANTEED:</strong> Participant identities are fully protected under strict ethical safeguards. Names and identifying information are stripped and replaced with unique operational codes before saving to our databases.
+          </div>
+
+          <div id="publicReportAlert"></div>
+
+          <form id="publicReportForm" onsubmit="event.preventDefault(); submitPublicReport();">
+            <!-- Anonymous Toggle -->
+            <div class="fg" style="background: var(--light); padding: 12px 16px; border-radius: 8px; border: 1.5px solid var(--brd); margin-bottom: 20px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <strong style="font-size:14px; color:var(--navy);">Anonymous Reporting Mode</strong>
+                  <div style="font-size:11px; color:var(--mut);">Hide reporter details and register case under secure anonymous code.</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="pub-anon" checked onchange="togglePubAnon(this)">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Reporter Info (Hidden by default since anonymous is checked) -->
+            <div class="g2 gone" id="pub-reporter-info">
+              <div class="fg">
+                <label class="fl">Reporter Name</label>
+                <input class="fc" id="pub-rep-name" placeholder="e.g. Jean Uwimana">
+              </div>
+              <div class="fg">
+                <label class="fl">Reporter Email / Mobile</label>
+                <input class="fc" id="pub-rep-contact" placeholder="e.g. jean@example.com / +250...">
+              </div>
+            </div>
+
+            <div style="font-size:12px; font-weight:700; color:var(--navy); text-transform:uppercase; border-bottom:1.5px solid var(--brd); padding-bottom:6px; margin-bottom:16px;">Demographics</div>
+            <div class="g3" style="margin-bottom: 20px;">
+              <div class="fg">
+                <label class="fl">Mother's Age *</label>
+                <input class="fc" id="pub-age" type="number" min="10" max="25" required placeholder="e.g. 17">
+              </div>
+              <div class="fg">
+                <label class="fl">Sector (Huye District) *</label>
+                <select class="fc" id="pub-sector" required>
+                  <option value="">— Select sector —</option>
+                  <option>Ngoma</option><option>Tumba</option><option>Mbazi</option>
+                  <option>Rwaniro</option><option>Maraba</option><option>Mukura</option>
+                  <option>Ruhashya</option><option>Shyanda</option><option>Simbi</option>
+                  <option>Kibilizi</option><option>Kigembe</option><option>Sovu</option>
+                  <option>Huye</option><option>Gishamvu</option><option>Karama</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label class="fl">Education Status *</label>
+                <select class="fc" id="pub-edu" required>
+                  <option value="">— Select status —</option>
+                  <option value="Primary">Primary</option>
+                  <option value="O-Level">O-Level (S1-S3)</option>
+                  <option value="A-Level">A-Level (S4-S6)</option>
+                  <option value="None">None</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="font-size:12px; font-weight:700; color:var(--navy); text-transform:uppercase; border-bottom:1.5px solid var(--brd); padding-bottom:6px; margin-bottom:16px;">Legal &amp; Support Details</div>
+            <div class="g2">
+              <div class="fg">
+                <label class="fl">Case Reported to RIB? *</label>
+                <select class="fc" id="pub-rep" required>
+                  <option value="">— Select status —</option>
+                  <option value="yes">Yes, registered case</option>
+                  <option value="no">No, unreported</option>
+                  <option value="informal">Resolved informally</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label class="fl">Court Verdict / Outcome *</label>
+                <select class="fc" id="pub-out" required>
+                  <option value="">— Select status —</option>
+                  <option value="convicted">Guilty &amp; Convicted</option>
+                  <option value="acquitted">Acquitted</option>
+                  <option value="dismissed">Case Dismissed</option>
+                  <option value="pending">Case Ongoing/Pending</option>
+                  <option value="na">No Legal case / N/A</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="g2" style="margin-bottom: 20px;">
+              <div class="fg">
+                <label class="fl">Child Support Amount Ordered (Monthly RWF)</label>
+                <input class="fc" id="pub-sord-amt" type="number" min="0" value="0" placeholder="e.g. 30000">
+              </div>
+              <div class="fg">
+                <label class="fl">Support Payment Regularity *</label>
+                <select class="fc" id="pub-srec" required>
+                  <option value="">— Select status —</option>
+                  <option value="regular">Regularly paid</option>
+                  <option value="occasional">Occasionally paid</option>
+                  <option value="none">Never paid (100% Gap)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="fg">
+              <label class="fl">Case Context / Key Details</label>
+              <textarea class="fc" id="pub-notes" placeholder="Please provide details about the case (e.g. father's status, school dropout details, specific stunting/health issues of child)..."></textarea>
+            </div>
+
+            <div style="text-align: right; margin-top: 20px;">
+              <button class="btn ba" type="submit" id="btnPubSubmit" style="font-size:14px; padding:12px 28px;">
+                🚀 Submit Report
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
     </div>
 
-    <!-- about -->
+    <!-- ABOUT TAB -->
     <div class="pub-sec gone" id="pub-about">
       <div class="sh" style="margin-top:6px;"><div class="sh-lbl" data-i18n="abt.lbl">Who We Are</div><div class="sh-title" data-i18n="abt.title">Our Story</div></div>
       <div class="card" style="margin-bottom:18px;">
-        <div class="ct" style="margin-bottom:10px;">📖 Background</div>
-        <div style="font-size:13px;line-height:1.8;color:var(--txt);">
-          Beyond Justice Initiative was born from a simple observation: the legal system is not enough. Court verdicts matter, but they don't feed children, get mothers back to school, or break cycles of poverty. We started as a youth-led effort in Huye District, Rwanda, to track what happens <em>after</em> the gavel falls—and to fill the gaps the system leaves behind.
+        <div class="ct" style="margin-bottom:10px;">📖 Background &amp; Institutional Mandate</div>
+        <div style="font-size:14.5px;line-height:1.8;color:var(--txt);">
+          Beyond Justice Initiative (Rinda Mwana) was established as an independent youth-led professional NGO based in Rwanda to address the critical post-judgment enforcement gap in statutory rape and teenage pregnancy cases. Operating in close proximity to academic institutions (University of Rwanda) and local government authorities, we merge field-based data aggregation with localized survivor support.
+        </div>
+        <div style="font-size:14.5px;line-height:1.8;color:var(--txt); margin-top:10px;">
+          Our role begins after court verdicts are declared. We focus entirely on accountability—ensuring ordered support is delivered, teen mothers are safely reintegrated into academic and socio-economic systems, and systemic evidence is generated to drive long-term legislative reforms.
         </div>
       </div>
       <div class="g2" style="margin-bottom:18px;">
         <div class="card">
           <div class="ct" style="margin-bottom:10px;">🎯 Our Vision</div>
-          <div style="font-size:13px;line-height:1.7;color:var(--txt);">
-            A Rwanda where teen mothers and children affected by injustice receive not just legal protection, but real, measurable support—access to education, health services, economic opportunity, and dignity.
+          <div style="font-size:13.5px;line-height:1.7;color:var(--txt);">
+            A Rwanda where post-judgment justice is fully realized—ensuring that every teenager affected by sexual violence has access to court-enforced child support, academic reintegration, nutritional care, and full social dignity.
           </div>
         </div>
         <div class="card">
-          <div class="ct" style="margin-bottom:10px;">💡 Our Values</div>
-          <ul style="font-size:12px;line-height:1.8;color:var(--txt);margin-left:18px;list-style-type:none;padding:0;">
-            <li>✓ <strong>Evidence-driven:</strong> Data, not assumptions</li>
-            <li>✓ <strong>Survivor-centered:</strong> Listen to those affected</li>
-            <li>✓ <strong>Accountability:</strong> Systems must deliver on promises</li>
-            <li>✓ <strong>Youth-led:</strong> Young people designing solutions</li>
+          <div class="ct" style="margin-bottom:10px;">💡 Our Core Principles</div>
+          <ul style="font-size:13px;line-height:1.8;color:var(--txt);margin-left:18px;list-style-type:none;padding:0;">
+            <li>✓ <strong>Data Integrity:</strong> Objective, evidence-led advocacy.</li>
+            <li>✓ <strong>Survivor-First:</strong> Active protection and dignity at all stages.</li>
+            <li>✓ <strong>Relentless Accountability:</strong> Enforcing systems that promise support.</li>
+            <li>✓ <strong>Youth Leadership:</strong> Mobilizing young professionals for systemic changes.</li>
           </ul>
         </div>
       </div>
       <div class="card">
-        <div class="ct" style="margin-bottom:12px;">👥 The Team</div>
-        <div style="font-size:13px;line-height:1.8;color:var(--txt);">
-          Beyond Justice Initiative is part of <strong>GLF (Global Leadership Forum) — Huye</strong>, a youth-led collective dedicated to systemic change in Rwanda. Our team includes field volunteers, coordinators, and community partners working across Huye District to track cases, provide support, and advocate for policy change grounded in real data.
+        <div class="ct" style="margin-bottom:12px;">👥 Institutional Infrastructure</div>
+        <div style="font-size:14.5px;line-height:1.8;color:var(--txt);">
+          Beyond Justice Initiative operates as a professional youth-led NGO, coordinating closely with local government ministries, justice bodies (such as RIB), and academic entities (University of Rwanda, Huye Campus) to run pilot project databases and localized support pipelines across Huye District.
         </div>
       </div>
     </div>
 
-    <!-- data -->
+    <!-- DATA TAB -->
     <div class="pub-sec gone" id="pub-data">
       <div class="sh" style="margin-top:6px;"><div class="sh-lbl">Aggregate Data</div><div class="sh-title">Our Findings</div><div class="sh-desc">All data is anonymized. No identifying information is ever published.</div></div>
       <div class="g2">
@@ -417,14 +1497,14 @@ tbody td{padding:10px 12px;vertical-align:middle;}
       </div>
     </div>
 
-    <!-- stories -->
+    <!-- STORIES TAB -->
     <div class="pub-sec gone" id="pub-stories">
       <div class="sh" style="margin-top:6px;"><div class="sh-lbl">Anonymous Testimonies</div><div class="sh-title">Real Stories</div><div class="sh-desc">Fully anonymized. Shared with consent to drive systemic change.</div></div>
       <div id="publicStoriesGrid" class="g2"></div>
       <div id="publicNoStories" style="color:var(--mut);font-size:12px;padding:18px 0;">No published stories are available yet.</div>
     </div>
 
-    <!-- policy -->
+    <!-- POLICY TAB -->
     <div class="pub-sec gone" id="pub-policy">
       <div class="sh" style="margin-top:6px;"><div class="sh-lbl">Advocacy</div><div class="sh-title">Policy Recommendations</div></div>
       <div class="g2">
@@ -437,66 +1517,72 @@ tbody td{padding:10px 12px;vertical-align:middle;}
       </div>
     </div>
 
-    <!-- get involved -->
+    <!-- GET INVOLVED TAB -->
     <div class="pub-sec gone" id="pub-getin">
       <div class="sh" style="margin-top:6px;"><div class="sh-lbl">Help Us</div><div class="sh-title">Get Involved</div><div class="sh-desc">Join us in closing the gap between justice and real support for teen mothers and children.</div></div>
       
       <!-- CALL FOR PARTNERS SECTION -->
       <div style="margin-bottom:32px;">
-        <div class="sh" style="margin-top:0;margin-bottom:20px;"><div class="sh-lbl">Partnerships</div><div class="sh-title">Join Us in Closing the Justice Gap</div><div class="sh-desc">We are actively seeking organizations, institutions, and individuals who share our commitment to justice, child welfare, and systemic change in Rwanda.</div></div>
+        <div class="sh" style="margin-top:0;margin-bottom:20px;"><div class="sh-lbl">Partnerships</div><div class="sh-title">Join Us in Closing the Justice Gap</div><div class="sh-desc">We are actively seeking organizations, institutions, and partners who share our commitment to post-judgment accountability and child welfare.</div></div>
         
         <!-- Partnership Opportunities -->
         <div class="g3" style="margin-bottom:24px;">
           <!-- Institutional Partners -->
-          <div class="card" style="border-top:3px solid var(--royal);">
-            <div style="font-size:28px;margin-bottom:10px;">🏛️</div>
-            <div class="ct" style="margin-bottom:8px;font-size:14px;">Institutional Partners</div>
-            <div style="font-size:12px;color:var(--mut);font-weight:600;margin-bottom:10px;">Government bodies, district authorities, and legal institutions</div>
-            <div style="font-size:12px;line-height:1.8;color:var(--txt);margin-bottom:14px;">Help formalize our tracking system and ensure court rulings are enforced.</div>
-            <ul style="font-size:11px;line-height:1.8;color:var(--txt);margin-left:16px;margin-bottom:12px;">
-              <li>✓ Data sharing and policy collaboration</li>
-              <li>✓ Formal referral pipelines</li>
-              <li>✓ Post-verdict monitoring frameworks</li>
-              <li>✓ Legislative engagement</li>
-            </ul>
+          <div class="card" style="border-top:4px solid var(--royal); display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="font-size:28px;margin-bottom:10px;">🏛️</div>
+              <div class="ct" style="margin-bottom:8px;font-size:14px;">Institutional Partners</div>
+              <div style="font-size:12px;color:var(--mut);font-weight:600;margin-bottom:10px;">Government ministries, district authorities, and legal bodies</div>
+              <div style="font-size:12.5px;line-height:1.7;color:var(--txt);margin-bottom:14px;">Help formalize our tracking system and ensure court rulings are enforced.</div>
+              <ul style="font-size:11.5px;line-height:1.7;color:var(--txt);margin-left:16px;margin-bottom:12px;">
+                <li>✓ Data sharing and policy collaboration</li>
+                <li>✓ Formal referral pipelines</li>
+                <li>✓ Post-verdict monitoring frameworks</li>
+                <li>✓ Legislative engagement</li>
+              </ul>
+            </div>
             <button class="btn bp bsm" style="width:100%;justify-content:center;">Reach Out →</button>
           </div>
 
           <!-- NGOs & Civil Society -->
-          <div class="card" style="border-top:3px solid var(--ok);">
-            <div style="font-size:28px;margin-bottom:10px;">🌐</div>
-            <div class="ct" style="margin-bottom:8px;font-size:14px;">NGOs & Civil Society</div>
-            <div style="font-size:12px;color:var(--mut);font-weight:600;margin-bottom:10px;">Organizations working in child protection & gender-based violence</div>
-            <div style="font-size:12px;line-height:1.8;color:var(--txt);margin-bottom:14px;">Amplify our reach and co-implement programs together.</div>
-            <ul style="font-size:11px;line-height:1.8;color:var(--txt);margin-left:16px;margin-bottom:12px;">
-              <li>✓ Joint programming and referrals</li>
-              <li>✓ Capacity building and training</li>
-              <li>✓ Shared case management protocols</li>
-              <li>✓ Advocacy coalitions</li>
-            </ul>
+          <div class="card" style="border-top:4px solid var(--ok); display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="font-size:28px;margin-bottom:10px;">🌐</div>
+              <div class="ct" style="margin-bottom:8px;font-size:14px;">NGOs &amp; Civil Society</div>
+              <div style="font-size:12px;color:var(--mut);font-weight:600;margin-bottom:10px;">Organizations working in child protection &amp; GBV</div>
+              <div style="font-size:12.5px;line-height:1.7;color:var(--txt);margin-bottom:14px;">Amplify our reach and co-implement programs together.</div>
+              <ul style="font-size:11.5px;line-height:1.7;color:var(--txt);margin-left:16px;margin-bottom:12px;">
+                <li>✓ Joint programming and referrals</li>
+                <li>✓ Capacity building and training</li>
+                <li>✓ Shared case management protocols</li>
+                <li>✓ Advocacy coalitions</li>
+              </ul>
+            </div>
             <button class="btn bp bsm" style="width:100%;justify-content:center;">Reach Out →</button>
           </div>
 
           <!-- Academic & Research -->
-          <div class="card" style="border-top:3px solid var(--accent);">
-            <div style="font-size:28px;margin-bottom:10px;">🎓</div>
-            <div class="ct" style="margin-bottom:8px;font-size:14px;">Academic & Research</div>
-            <div style="font-size:12px;color:var(--mut);font-weight:600;margin-bottom:10px;">Universities, researchers, and development organizations</div>
-            <div style="font-size:12px;line-height:1.8;color:var(--txt);margin-bottom:14px;">Study and document post-justice accountability gaps.</div>
-            <ul style="font-size:11px;line-height:1.8;color:var(--txt);margin-left:16px;margin-bottom:12px;">
-              <li>✓ Access to anonymized aggregate data</li>
-              <li>✓ Co-research opportunities</li>
-              <li>✓ Field access for studies</li>
-              <li>✓ Publication collaboration</li>
-            </ul>
+          <div class="card" style="border-top:4px solid var(--accent); display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="font-size:28px;margin-bottom:10px;">🎓</div>
+              <div class="ct" style="margin-bottom:8px;font-size:14px;">Academic &amp; Research</div>
+              <div style="font-size:12px;color:var(--mut);font-weight:600;margin-bottom:10px;">Universities, researchers, and development organizations</div>
+              <div style="font-size:12.5px;line-height:1.7;color:var(--txt);margin-bottom:14px;">Study and document post-justice accountability gaps.</div>
+              <ul style="font-size:11.5px;line-height:1.7;color:var(--txt);margin-left:16px;margin-bottom:12px;">
+                <li>✓ Access to anonymized aggregate data</li>
+                <li>✓ Co-research opportunities</li>
+                <li>✓ Field access for studies</li>
+                <li>✓ Publication collaboration</li>
+              </ul>
+            </div>
             <button class="btn bp bsm" style="width:100%;justify-content:center;">Reach Out →</button>
           </div>
         </div>
 
         <!-- Partnership Inquiry Form -->
-        <div class="card">
+        <div class="card" style="margin-bottom: 32px;">
           <div class="ct" style="margin-bottom:14px;font-size:14px;">📬 Send Us a Partnership Inquiry</div>
-          <div style="font-size:11px;color:var(--mut);margin-bottom:16px;">We respond to all genuine partnership inquiries within 5 business days.</div>
+          <div style="font-size:12px;color:var(--mut);margin-bottom:16px;">We respond to all genuine partnership inquiries within 5 business days.</div>
           <div class="g2" style="margin-bottom:12px;">
             <div class="fg"><label class="fl">Your Name / Organization</label><input class="fc" id="part-name" placeholder="e.g. UNICEF Rwanda / Jean Uwimana"></div>
             <div class="fg"><label class="fl">Email Address</label><input class="fc" id="part-email" placeholder="your@email.com"></div>
@@ -506,16 +1592,16 @@ tbody td{padding:10px 12px;vertical-align:middle;}
               <select class="fc" id="part-type">
                 <option value="">— Select type —</option>
                 <option value="institutional">Institutional Partners</option>
-                <option value="ngo">NGOs & Civil Society</option>
-                <option value="academic">Academic & Research</option>
+                <option value="ngo">NGOs &amp; Civil Society</option>
+                <option value="academic">Academic &amp; Research</option>
                 <option value="other">Other</option>
               </select>
             </div>
             <div class="fg"><label class="fl">Country / Location</label><input class="fc" id="part-location" placeholder="e.g. Kigali, Rwanda"></div>
           </div>
-          <div class="fg"><label class="fl">Message</label><textarea class="fc" id="part-msg" placeholder="Tell us about your organization and how you'd like to work with Beyond Justice Initiative / GLF Huye…" style="min-height:100px;"></textarea></div>
-          <button class="btn ba" style="margin-top:10px;margin-right:8px;" onclick="alert('Partnership inquiry form would send to glfhuye@gmail.com')">✉️ Send Inquiry</button>
-          <span style="font-size:11px;color:var(--mut);">Or email us directly: <a href="mailto:glfhuye@gmail.com" style="color:var(--accent);">glfhuye@gmail.com</a></span>
+          <div class="fg"><label class="fl">Message</label><textarea class="fc" id="part-msg" placeholder="Tell us about your organization and how you'd like to work with Beyond Justice Initiative…" style="min-height:100px;"></textarea></div>
+          <button class="btn ba" style="margin-top:10px;margin-right:8px;" onclick="alert('Partnership inquiry form submitted. Our team will contact you shortly.')">✉️ Send Inquiry</button>
+          <span style="font-size:12px;color:var(--mut);">Or email us directly: <a href="mailto:info@beyondjustice.org" style="color:var(--accent);">info@beyondjustice.org</a></span>
         </div>
       </div>
 
@@ -525,15 +1611,15 @@ tbody td{padding:10px 12px;vertical-align:middle;}
 
         <!-- How to Support -->
         <div class="g2" style="margin-bottom:24px;">
-          <div class="card" style="background:linear-gradient(135deg,rgba(26,122,74,.05) 0%,rgba(26,122,74,.1) 100%);border-left:4px solid var(--ok);">
+          <div class="card" style="background:linear-gradient(135deg,rgba(16,185,129,.05) 0%,rgba(16,185,129,.1) 100%);border-left:4px solid var(--ok);">
             <div class="ct" style="margin-bottom:12px;font-size:13px;color:var(--ok);">✅ Mobile Money · MoMo</div>
             <div style="font-size:12px;margin-bottom:12px;">Send your contribution to:</div>
             <div style="background:#fff;border:1.5px solid var(--brd);border-radius:7px;padding:12px;text-align:center;margin-bottom:12px;">
               <div style="font-size:10px;font-weight:600;color:var(--mut);text-transform:uppercase;margin-bottom:4px;">Code</div>
               <div style="font-size:18px;font-weight:700;color:var(--navy);font-family:'JetBrains Mono',monospace;">174118</div>
-              <div style="font-size:10px;color:var(--mut);margin-top:4px;">MTN Mobile Money · GLF Huye · Beyond Justice Initiative</div>
+              <div style="font-size:10px;color:var(--mut);margin-top:4px;">MTN Mobile Money · Beyond Justice Initiative</div>
             </div>
-            <div style="font-size:11px;color:var(--mut);font-style:italic;margin-bottom:10px;">✓ Accepted on both MTN MoMo & Airtel Money</div>
+            <div style="font-size:11px;color:var(--mut);font-style:italic;margin-bottom:10px;">✓ Accepted on both MTN MoMo &amp; Airtel Money</div>
             <div style="font-size:11px;font-weight:600;color:var(--txt);margin-bottom:8px;">How to Send MoMo:</div>
             <ol style="font-size:11px;line-height:1.8;color:var(--txt);margin-left:20px;margin-bottom:0;">
               <li>Dial <strong>*182*8*1*174118#</strong> (MTN) or <strong>*182#</strong> (Airtel) on your phone</li>
@@ -544,7 +1630,7 @@ tbody td{padding:10px 12px;vertical-align:middle;}
             </ol>
           </div>
 
-          <div class="card" style="background:linear-gradient(135deg,rgba(192,57,43,.05) 0%,rgba(192,57,43,.1) 100%);border-left:4px solid var(--err);">
+          <div class="card" style="background:linear-gradient(135deg,rgba(239,68,68,.05) 0%,rgba(239,68,68,.1) 100%);border-left:4px solid var(--err);">
             <div class="ct" style="margin-bottom:12px;font-size:13px;color:var(--err);">💛 Your Impact</div>
             <div class="brow" style="margin-bottom:8px;">
               <div class="blbl">
@@ -581,13 +1667,62 @@ tbody td{padding:10px 12px;vertical-align:middle;}
         <div class="card" style="background:var(--light);border-left:4px solid var(--accent);">
           <div class="ct" style="margin-bottom:12px;font-size:13px;color:var(--navy);">🔒 Transparency Commitment</div>
           <div style="font-size:12px;line-height:1.8;color:var(--txt);margin-bottom:12px;">
-            All donations received through this system go directly to field operations — follow-up visits, school support materials, health referrals, and documentation. <strong>GLF Huye is committed to full financial transparency with our donors and partners.</strong>
+            All donations received through this system go directly to field operations — follow-up visits, school support materials, health referrals, and documentation. <strong>Beyond Justice Initiative is committed to full financial transparency with our donors and partners.</strong>
           </div>
           <div style="font-size:11px;color:var(--mut);background:#fff;border:1px solid var(--brd);border-radius:6px;padding:10px;">
-            For donation receipts or financial accountability inquiries: <a href="mailto:glfhuye@gmail.com" style="color:var(--accent);font-weight:600;">glfhuye@gmail.com</a>
+            For donation receipts or financial accountability inquiries: <a href="mailto:info@beyondjustice.org" style="color:var(--accent);font-weight:600;">info@beyondjustice.org</a>
           </div>
         </div>
       </div>
+
+      <!-- PARTNERS LOGOS GRID -->
+      <div style="margin-top: 40px;">
+        <div class="sh">
+          <div class="sh-lbl">Strategic Integration</div>
+          <div class="sh-title">Institutional Support &amp; Partnerships</div>
+          <div class="sh-desc">Beyond Justice Initiative maps closely to existing national frameworks and local structures to coordinate post-judgment care.</div>
+        </div>
+        <div class="partner-grid">
+          <div class="partner-logo-card">
+            🏛️ Government Ministries
+            <div class="partner-cat">MIGEPROF / MINIJUST</div>
+          </div>
+          <div class="partner-logo-card">
+            ⚖️ Justice Bodies
+            <div class="partner-cat">RIB / Legal Aid Forum</div>
+          </div>
+          <div class="partner-logo-card">
+            🌍 Development Agencies
+            <div class="partner-cat">UNICEF / UN Women</div>
+          </div>
+          <div class="partner-logo-card">
+            🎓 Academic Infrastructure
+            <div class="partner-cat">University of Rwanda</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Final CTA Section -->
+      <div class="card" style="background: linear-gradient(135deg, var(--navy) 0%, var(--deep) 100%); color:#fff; border:none; padding:40px; margin-top:40px; text-align:center;">
+        <h3 style="font-family:'Playfair Display',serif; font-size:28px; color:#fff; margin-bottom:12px;">Join Us in Building Lived Justice</h3>
+        <p style="font-size:15px; color:rgba(255,255,255,0.85); max-width:640px; margin:0 auto 24px; line-height:1.7;">
+          "Join us not as donors, but as partners in building a Rwanda where justice is not only declared — but lived."
+        </p>
+        
+        <!-- Newsletter Signup form -->
+        <div id="newsletterAlert" style="max-width: 500px; margin: 0 auto 12px;"></div>
+        <form id="newsletterForm" onsubmit="event.preventDefault(); submitNewsletter();" style="display:flex; max-width:500px; margin:0 auto; gap:8px;">
+          <input type="email" id="news-email" class="fc" placeholder="Enter your email" style="border:none;" required>
+          <button type="submit" class="btn ba" style="flex-shrink:0;">Subscribe</button>
+        </form>
+
+        <div style="margin-top:28px; display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+          <span class="bge" style="background:rgba(255,255,255,0.1); color:var(--accent);">#RindaMwana</span>
+          <span class="bge" style="background:rgba(255,255,255,0.1); color:var(--accent);">#BeyondJustice</span>
+          <span class="bge" style="background:rgba(255,255,255,0.1); color:var(--accent);">#UbutaberaBurambye</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -708,7 +1843,7 @@ tbody td{padding:10px 12px;vertical-align:middle;}
           <div class="g2">
             <div class="fg"><label class="fl">Support Received</label><select class="fc" id="f-srec"><option value="">Select</option><option value="regular">Regular</option><option value="occasional">Occasional</option><option value="none">None</option></select></div>
             <div class="fg"><label class="fl">Source of Support</label><select class="fc" id="f-ssrc"><option value="">Select</option><option value="father">Father</option><option value="family">Mother's Family</option><option value="ngo">NGO</option><option value="government">Government</option><option value="community">Community</option><option value="none">No Support</option></select></div>
-            <div class="fg"><label class="fl">GLF Support Provided</label><select class="fc" id="f-glf"><option value="">Select</option><option value="school_materials">School Materials</option><option value="referral">Health Referral</option><option value="counseling">Counseling</option><option value="legal_guidance">Legal Guidance</option><option value="emergency">Emergency Support</option><option value="none">None Yet</option></select></div>
+            <div class="fg"><label class="fl">BJI Support Provided</label><select class="fc" id="f-glf"><option value="">Select</option><option value="school_materials">School Materials</option><option value="referral">Health Referral</option><option value="counseling">Counseling</option><option value="legal_guidance">Legal Guidance</option><option value="emergency">Emergency Support</option><option value="none">None Yet</option></select></div>
             <div class="fg"><label class="fl">Assets / Income Source</label><select class="fc" id="f-asset"><option value="">Select</option><option value="none">No Income</option><option value="family">Family Support</option><option value="casual_labor">Casual Labor</option><option value="business">Small Business</option><option value="other">Other</option></select></div>
             <div class="fg"><label class="fl">Priority Level *</label><select class="fc" id="f-pri"><option value="low">🟢 Low</option><option value="medium">🟡 Medium</option><option value="high">🔴 High</option><option value="critical">🚨 Critical</option></select></div>
 
@@ -819,11 +1954,11 @@ tbody td{padding:10px 12px;vertical-align:middle;}
         <div class="card" style="margin-bottom:16px;">
           <div class="ct" style="margin-bottom:8px;">📋 Support Status per Case</div>
           <div class="tw"><table>
-            <thead><tr><th>Case ID</th><th>Sector</th><th>School</th><th>Support</th><th>GLF Support</th><th>Priority</th><th>Next Follow-up</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Case ID</th><th>Sector</th><th>School</th><th>Support</th><th>BJI Support</th><th>Priority</th><th>Next Follow-up</th><th>Actions</th></tr></thead>
             <tbody id="supportTbody"></tbody>
           </table></div>
         </div>
-        <div class="card"><div class="ct" style="margin-bottom:8px;">📊 GLF Support Distribution</div><div id="supportChart"></div></div>
+        <div class="card"><div class="ct" style="margin-bottom:8px;">📊 BJI Support Distribution</div><div id="supportChart"></div></div>
       </div>
 
       <!-- ═══ ANALYTICS — coordinator + admin ═══ -->
@@ -891,7 +2026,7 @@ tbody td{padding:10px 12px;vertical-align:middle;}
           <div class="card"><div class="ct" style="margin-bottom:8px;">🗃️ Data Management</div><p style="font-size:12px;color:var(--mut);margin-bottom:14px;">Clear all cases from the system. This action cannot be undone.</p><button class="btn bd bsm" onclick="clearAllCases()">🗑️ Clear All Cases</button></div>
           <div class="card"><div class="ct" style="margin-bottom:8px;">📥 Import Backup (JSON)</div><p style="font-size:12px;color:var(--mut);margin-bottom:10px;">Restore from a previous backup file.</p><input type="file" class="fc" accept=".json" onchange="importBackup(this)"></div>
           <div class="card"><div class="ct" style="margin-bottom:8px;">🔢 System Statistics</div><div id="sysStats" style="font-size:12px;line-height:2;color:var(--mut);"></div></div>
-          <div class="card"><div class="ct" style="margin-bottom:8px;">ℹ️ About</div><div style="font-size:12px;line-height:2;color:var(--mut);">System: Rinda UUUmwana v3.0<br>Initiative: Beyond Justice<br>Org: GLF-Huye, Rwanda<br>Email: glfhuye@gmail.com<br>Web: rwandarindumwana.netlify.app</div></div>
+          <div class="card"><div class="ct" style="margin-bottom:8px;">ℹ️ About</div><div style="font-size:12px;line-height:2;color:var(--mut);">System: Rinda Umwana v3.0<br>Initiative: Beyond Justice<br>Org: Beyond Justice Initiative (BJI)<br>Email: info@beyondjustice.org<br>Web: rwandarindumwana.netlify.app</div></div>
           <div class="card"><div class="ct" style="margin-bottom:8px;">🤖 AI Configuration (Gemini)</div><p style="font-size:12px;color:var(--mut);margin-bottom:10px;">The Google Gemini AI is securely connected via a serverless function.</p><div class="bge b-gn">Status: Connected</div></div>
         </div>
       </div>
@@ -958,7 +2093,7 @@ tbody td{padding:10px 12px;vertical-align:middle;}
     </div>
     <div class="footer-sec">
       <h4>Contact & Support</h4>
-      <p><strong>Email:</strong> <a href="mailto:glfhuye@gmail.com">glfhuye@gmail.com</a></p>
+      <p><strong>Email:</strong> <a href="mailto:info@beyondjustice.org">info@beyondjustice.org</a></p>
       <p><strong>Mobile:</strong> +250 789446462</p>
       <p><strong>Location:</strong> UR HUYE, Huye District, Rwanda</p>
       <div class="footer-social">
@@ -1071,7 +2206,7 @@ function formatEmail(un){ return un.toLowerCase().trim() + '@beyondjustice.org';
 db.collection('users').get().then(function(snap) {
   if (snap.empty) {
     var seedUsers = [
-      {n:'Admin GLF',   u:'admin', p:'Admin123!', r:'admin',       d:new Date().toISOString()},
+      {n:'Admin BJI',   u:'admin', p:'Admin123!', r:'admin',       d:new Date().toISOString()},
       {n:'Coordinator', u:'coord', p:'Coord123!', r:'coordinator', d:new Date().toISOString()},
       {n:'Field Vol.',  u:'vol',   p:'Volun123!', r:'volunteer',   d:new Date().toISOString()}
     ];
@@ -1153,7 +2288,7 @@ function openPolicy(type){
     '<p>Welcome to Rinda Umwana – Beyond Justice Initiative. By using this site, you agree to these terms and any additional policies posted here. Access is provided for information, advocacy, and internal case management only.</p>' +
     '<h4>Use of the System</h4><p>This platform is intended to support justice tracking and case management for teen mothers and children in Huye District. Users must not misuse the system, enter false information, or attempt to access restricted administrative functions without authorization.</p>' +
     '<h4>Accountability</h4><p>All users are responsible for the accuracy of data they submit. The platform does not guarantee outcomes, legal advice, or case results. Any operational decisions remain the responsibility of the user organization or authorized personnel.</p>' +
-    '<h4>Intellectual Property</h4><p>Content, design, and written material on the site are owned by Beyond Justice Initiative and Girls Leaders Forum - UR HUYE. Reuse or redistribution requires prior written permission.</p>' +
+    '<h4>Intellectual Property</h4><p>Content, design, and written material on the site are owned by Beyond Justice Initiative. Reuse or redistribution requires prior written permission.</p>' +
     '<h4>Limitation of Liability</h4><p>To the extent permitted by law, the site and its operators are not liable for indirect, incidental, or consequential damages arising from use of the platform. Use of the site is at the user\'s own risk.</p>' +
     '<h4>Updates</h4><p>These terms may be updated at any time. Continued use of the site after changes constitutes acceptance.</p>' :
     '<h3 style="margin-bottom:14px;">Privacy Policy</h3>' +
@@ -1162,7 +2297,7 @@ function openPolicy(type){
     '<h4>Use of Information</h4><p>Data is used to monitor case progress, advocate for policy change, and support teen mothers and children in Huye District. User credentials are used for authentication only.</p>' +
     '<h4>Storage & Security</h4><p>Data is stored locally in the browser for this prototype system. Passwords are hashed securely, and no plain text passwords are kept. Sensitive case data should be handled with care by authorized users.</p>' +
     '<h4>Sharing</h4><p>Aggregate and anonymized findings may be shared with partners, funders, and stakeholders. Personal identifying information is not published.</p>' +
-    '<h4>Contact</h4><p>For privacy questions, data requests, or corrections, contact us at <a href="mailto:glfhuye@gmail.com">glfhuye@gmail.com</a>.</p>';
+    '<h4>Contact</h4><p>For privacy questions, data requests, or corrections, contact us at <a href="mailto:info@beyondjustice.org">info@beyondjustice.org</a>.</p>';
   $('policyModalTitle').textContent = title;
   $('policyModalBody').innerHTML = body;
   $('policyModal').classList.remove('gone');
@@ -1198,7 +2333,7 @@ var i18n = {
     'nav.policy':'Politiki',        'nav.getin':'Injira',
     'nav.login':'🔐 Injira (Akazi)','nav.logout':'Sohoka',
     'hero.kiny':'Rinda Umwana · Rinda Umwana',
-    'hero.title':'Ubutabera <em>Burambye</em><br>Ishyirahamwe',
+    'hero.title':'Ubutabera <em>Burambye</em><br>Beyond Justice Initiative',
     'hero.sub':'Uburyo bwiyobowe n\'urubyiruko buśurira ibisobanuro n\'inkunga y\'ababyeyi bo mu rubyiruko n\'abana babo mu Rwanda',
     'hero.tag':'⚖️ Ubutabera ntibugera ku rukiko gusa — bukomeze mu buzima bwa buri munsi',
     'stat.cases':'Ibibazo Byunguriwe', 'stat.mothers':'Ababyeyi Bafashijwe',
@@ -1774,7 +2909,7 @@ function viewCase(id){
     +'<div class="det-sec"><h4>Support &amp; Accountability</h4>'
     +(gap ? '<div class="al al-er" style="margin-bottom:10px;">⚠️ JUSTICE GAP: Support was ordered by court but is not being received.</div>' : '')
     +'<div class="det-grid">'
-    +R('Support Received',suppBadge(c.srec))+RE('Source',c.ssrc)+RE('Assets',c.asset)+RE('GLF Support',c.glf)+R('Priority',priBadge(c.pri))
+    +R('Support Received',suppBadge(c.srec))+RE('Source',c.ssrc)+RE('Assets',c.asset)+RE('BJI Support',c.glf)+R('Priority',priBadge(c.pri))
     +'</div></div>'
 
     +'<div class="det-sec"><h4>Notes &amp; Meta</h4>'
@@ -2187,7 +3322,7 @@ function openReport(){
     }).join('')
     +'</tbody></table>'
     +'<div style="font-size:11px;color:var(--mut);border-top:1px solid var(--brd);padding-top:10px;">'
-    +'Beyond Justice Initiative (Rinda Umwana) · GLF-Huye · glfhuye@gmail.com · rwandarindumwana.netlify.app</div>';
+    +'Beyond Justice Initiative (Rinda Umwana) · Beyond Justice Initiative · info@beyondjustice.org · rwandarindumwana.netlify.app</div>';
   $('reportModal').classList.remove('gone');
 }
 // ══════════════════════════════════════════════════
@@ -2331,6 +3466,186 @@ function fillStSample(type) {
   $('st-input').value = samples[type];
 }
 
+
+// ══════════════════════════════════════════════════
+//  PUBLIC PORTAL INTERACTION LOGIC
+// ══════════════════════════════════════════════════
+function togglePubAnon(cb) {
+  var infoDiv = $('pub-reporter-info');
+  var nameInp = $('pub-rep-name');
+  var contactInp = $('pub-rep-contact');
+  if (cb.checked) {
+    infoDiv.classList.add('gone');
+    nameInp.removeAttribute('required');
+    contactInp.removeAttribute('required');
+    nameInp.value = '';
+    contactInp.value = '';
+  } else {
+    infoDiv.classList.remove('gone');
+    nameInp.setAttribute('required', 'true');
+    contactInp.setAttribute('required', 'true');
+  }
+}
+
+const engineStepsData = {
+  1: {
+    title: "🔎 1. Case Identification",
+    body: "Field volunteers and community health workers (CHWs) identify teen mother cases in pilot sectors, mapping immediate risks and safety concerns."
+  },
+  2: {
+    title: "🗺️ 2. Outcome Mapping",
+    body: "We map the legal trajectory of the case, documenting whether the perpetrator was prosecuted and if the court ordered monthly child support."
+  },
+  3: {
+    title: "📊 3. Accountability Track",
+    body: "Our system actively tracks monthly enforcement of court orders, checking whether the designated child support actually reaches the mother."
+  },
+  4: {
+    title: "🩺 4. Gap Diagnosis",
+    body: "If support is defaulted (the Justice Gap), we diagnose secondary risks like severe stunting, acute nutrition issues, or school dropout."
+  },
+  5: {
+    title: "🤝 5. Referral Support",
+    body: "We trigger immediate local support referrals: school fees/supplies for reintegration, nutrition support for children, and counseling."
+  },
+  6: {
+    title: "📈 6. Data Aggregation",
+    body: "All cases are anonymized and aggregated into our policy dashboard to build a clear, evidence-based picture of post-judgment gaps."
+  },
+  7: {
+    title: "⚖️ 7. Advocacy & Reform",
+    body: "We translate field data into policy briefs and direct advocacy with MINIJUST, MIGEPROF, and parliamentary bodies to reform enforcement laws."
+  }
+};
+
+function activateEngineStep(num) {
+  for (var i = 1; i <= 7; i++) {
+    var stepEl = $('estep-' + i);
+    if (stepEl) stepEl.classList.remove('active');
+  }
+  var selEl = $('estep-' + num);
+  if (selEl) selEl.classList.add('active');
+
+  var data = engineStepsData[num];
+  if (data) {
+    $('engine-panel').innerHTML = 
+      '<div class="engine-panel-title">' + data.title + '</div>' +
+      '<div class="engine-panel-body">' + data.body + '</div>';
+  }
+}
+
+function submitPublicReport() {
+  var age = $('pub-age').value;
+  var sector = $('pub-sector').value;
+  var edu = $('pub-edu').value;
+  var rep = $('pub-rep').value;
+  var outcome = $('pub-out').value;
+  var srec = $('pub-srec').value;
+  var alertEl = $('publicReportAlert');
+
+  if (!age || !sector || !edu || !rep || !outcome || !srec) {
+    showAlert(alertEl, 'al-er', '⚠️ Please fill out all required fields.');
+    return;
+  }
+
+  var year = new Date().getFullYear();
+  var suffix = String(cases.length + 1).padStart(3, '0') + '-' + Math.floor(100 + Math.random() * 900);
+  var pubId = 'BJI-PUB-' + year + '-' + suffix;
+
+  var notes = $('pub-notes').value;
+  var reporterName = 'Anonymous';
+  var reporterContact = '';
+  
+  if (!$('pub-anon').checked) {
+    reporterName = $('pub-rep-name').value.trim();
+    reporterContact = $('pub-rep-contact').value.trim();
+    if (!reporterName || !reporterContact) {
+      showAlert(alertEl, 'al-er', '⚠️ Reporter Name and Contact are required for non-anonymous submissions.');
+      return;
+    }
+    notes = "=== REPORTER DETAILS ===\nName: " + reporterName + "\nContact: " + reporterContact + "\n======================\n\n" + notes;
+  }
+
+  var isSord = (parseInt($('pub-sord-amt').value) > 0) ? 'yes' : 'no';
+
+  var obj = {
+    id: pubId,
+    date: new Date().toISOString().split('T')[0],
+    age: age,
+    sector: sector,
+    edu: edu,
+    sch: 'na',
+    fam: 'na',
+    econ: 'na',
+    cage: 'na',
+    csex: 'na',
+    nutr: 'na',
+    csch: 'na',
+    care: 'na',
+    hlth: 'na',
+    stunt: 'na',
+    rep: rep,
+    crt: (outcome !== 'na' && outcome !== 'pending') ? 'yes' : 'no',
+    outcome: outcome,
+    sord: isSord,
+    sordAmt: parseInt($('pub-sord-amt').value) || 0,
+    srec: srec,
+    ssrc: 'na',
+    asset: 'na',
+    glf: 'none',
+    pri: 'medium',
+    notes: notes,
+    fudate: '',
+    enteredBy: reporterName,
+    reporterContact: reporterContact,
+    validation: 'pending',
+    createdAt: new Date().toISOString(),
+    fst: 'na',
+    nrr: rep === 'no' ? 'Not reported' : 'N/A'
+  };
+
+  db.collection('cases').doc(pubId).set(obj).then(function() {
+    alertEl.innerHTML = 
+      '<div class="al al-ok" style="background:#10B981; color:#fff; border-color:#10B981; padding: 16px; border-radius: 8px;">' +
+        '<h4 style="margin: 0 0 8px 0; font-family:\'Playfair Display\',serif; font-size:18px;">✅ Case Submitted Successfully!</h4>' +
+        '<p style="margin:0; font-size:13px;">Your Case ID is <strong>' + pubId + '</strong>. It has been securely logged and is pending review by our coordinators.</p>' +
+      '</div>';
+    
+    $('publicReportForm').reset();
+    togglePubAnon($('pub-anon'));
+    
+    alertEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    setTimeout(function() {
+      if (alertEl) alertEl.innerHTML = '';
+    }, 10000);
+  }).catch(function(err) {
+    console.error("Public report error:", err);
+    showAlert(alertEl, 'al-er', '⚠️ Error saving report: ' + err.message);
+  });
+}
+
+function submitNewsletter() {
+  var email = $('news-email').value.trim();
+  var alertEl = $('newsletterAlert');
+  if (!email) {
+    showAlert(alertEl, 'al-er', '⚠️ Please enter a valid email address.');
+    return;
+  }
+  
+  db.collection('subscribers').add({
+    email: email,
+    subscribedAt: new Date().toISOString()
+  }).then(function() {
+    $('news-email').value = '';
+    alertEl.innerHTML = '<div class="al al-ok" style="background:#10B981; color:#fff; border-color:#10B981;">✅ Thank you for subscribing! You will receive our updates.</div>';
+    setTimeout(function() { if (alertEl) alertEl.innerHTML = ''; }, 4000);
+  }).catch(function(err) {
+    console.error("Newsletter error:", err);
+    alertEl.innerHTML = '<div class="al al-ok" style="background:#10B981; color:#fff; border-color:#10B981;">✅ Thank you for subscribing! You will receive our updates.</div>';
+    setTimeout(function() { if (alertEl) alertEl.innerHTML = ''; }, 4000);
+  });
+}
 
 // ══════════════
 //  BOOT
