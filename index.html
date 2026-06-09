@@ -41,8 +41,8 @@ body{
   font-family: 'Source Sans 3', sans-serif;
   background: var(--white);
   color: var(--txt);
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: 16.5px;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
 }
 .gone{display:none!important;}
@@ -389,13 +389,13 @@ select.fc{cursor:pointer;}
   font-family: 'Playfair Display', serif;
   font-weight: 700;
   color: var(--navy);
-  font-size: 16px;
+  font-size: 17.5px;
   margin-bottom: 8px;
 }
 .cb{
   color: var(--mut);
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 15.5px;
+  line-height: 1.65;
 }
 .kcard{
   background: #fff;
@@ -1486,43 +1486,7 @@ input:checked + .slider:before {
         <div class="sh-desc">A dedicated team of young professionals, legal scholars, and social workers committed to enforcing post-judgment justice and protecting vulnerable children.</div>
       </div>
       
-      <div class="g4" style="margin-bottom:24px;">
-        <div class="card" style="text-align: center; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; border-top: 4px solid var(--navy);">
-          <div>
-            <div style="width: 72px; height: 72px; border-radius: 50%; font-size: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; background: linear-gradient(135deg, var(--navy) 0%, var(--royal) 100%); color: #fff; font-weight: 700; border: 3px solid var(--border-color);">ED</div>
-            <div class="ct" style="font-size: 15px; margin-bottom: 4px;">Ephrem Dushimimana</div>
-            <div style="font-size: 10px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px;">Executive Director &amp; Founder</div>
-            <p class="cb" style="font-size: 12px; line-height: 1.6; color: var(--text-muted); margin-bottom: 0;">Legal researcher and innovator directing the strategic vision, government coordination, and advocacy agenda of the initiative.</p>
-          </div>
-        </div>
-        
-        <div class="card" style="text-align: center; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; border-top: 4px solid var(--royal);">
-          <div>
-            <div style="width: 72px; height: 72px; border-radius: 50%; font-size: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; background: linear-gradient(135deg, var(--royal) 0%, var(--success) 100%); color: #fff; font-weight: 700; border: 3px solid var(--border-color);">LN</div>
-            <div class="ct" style="font-size: 15px; margin-bottom: 4px;">Dr. Liliane Nsengiyumva</div>
-            <div style="font-size: 10px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px;">Legal &amp; Policy Director</div>
-            <p class="cb" style="font-size: 12px; line-height: 1.6; color: var(--text-muted); margin-bottom: 0;">LL.M scholar overseeing court monitoring, legal outcomes validation, and translating field findings into national policy recommendations.</p>
-          </div>
-        </div>
-        
-        <div class="card" style="text-align: center; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; border-top: 4px solid var(--accent-gold);">
-          <div>
-            <div style="width: 72px; height: 72px; border-radius: 50%; font-size: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; background: linear-gradient(135deg, var(--accent-gold) 0%, var(--navy) 100%); color: #fff; font-weight: 700; border: 3px solid var(--border-color);">JU</div>
-            <div class="ct" style="font-size: 15px; margin-bottom: 4px;">Jean Bosco Uwiringiyimana</div>
-            <div style="font-size: 10px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px;">Field Operations Lead</div>
-            <p class="cb" style="font-size: 12px; line-height: 1.6; color: var(--text-muted); margin-bottom: 0;">Social worker coordinating our network of field volunteers and community health workers (CHWs) tracking cases in Huye sectors.</p>
-          </div>
-        </div>
-        
-        <div class="card" style="text-align: center; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; border-top: 4px solid var(--success);">
-          <div>
-            <div style="width: 72px; height: 72px; border-radius: 50%; font-size: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; background: linear-gradient(135deg, var(--success) 0%, var(--royal) 100%); color: #fff; font-weight: 700; border: 3px solid var(--border-color);">MM</div>
-            <div class="ct" style="font-size: 15px; margin-bottom: 4px;">Marie Claire Mukamanzi</div>
-            <div style="font-size: 10px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px;">Nutrition &amp; Reintegration Lead</div>
-            <p class="cb" style="font-size: 12px; line-height: 1.6; color: var(--text-muted); margin-bottom: 0;">Public health advocate managing school reintegration programs, school fee sponsorships, and infant nutrition intervention logistics.</p>
-          </div>
-        </div>
-      </div>
+      <div class="g4" style="margin-bottom:24px;" id="publicTeamGrid"></div>
     </div>
 
     <!-- DATA TAB -->
@@ -2052,6 +2016,57 @@ input:checked + .slider:before {
         </div>
       </div>
 
+      <!-- ═══ TEAM MEMBERS MANAGEMENT — admin only ═══ -->
+      <div class="view" id="v-team-manage">
+        <div class="sh">
+          <div class="sh-lbl">Team Management</div>
+          <div class="sh-title">Manage Team Members</div>
+          <div class="sh-desc">Add, edit, or remove executive board members and project coordinators. These display on the public About page in real-time.</div>
+        </div>
+        
+        <div class="card" style="margin-bottom:16px;">
+          <div class="ct" id="teamFormTitle" style="margin-bottom:12px;">➕ Add Team Member</div>
+          <div id="teamAlert"></div>
+          <form id="teamMemberForm" onsubmit="event.preventDefault(); saveTeamMember();">
+            <input type="hidden" id="t-editing-id">
+            <div class="g2" style="margin-bottom:12px;">
+              <div class="fg"><label class="fl">Full Name *</label><input class="fc" id="t-name" required placeholder="e.g. Ephrem Dushimimana"></div>
+              <div class="fg"><label class="fl">Role / Title *</label><input class="fc" id="t-role" required placeholder="e.g. Executive Director & Founder"></div>
+            </div>
+            <div class="g2" style="margin-bottom:12px;">
+              <div class="fg"><label class="fl">Sort Order (number) *</label><input class="fc" id="t-order" type="number" required min="1" value="1" placeholder="e.g. 1"></div>
+              <div class="fg">
+                <label class="fl">Profile Photo</label>
+                <input class="fc" type="file" accept="image/*" onchange="handleTeamPhoto(this)">
+                <input type="hidden" id="t-photo-data">
+              </div>
+            </div>
+            <div class="fg" style="margin-bottom:12px;">
+              <label class="fl">Short Bio *</label>
+              <textarea class="fc" id="t-bio" required placeholder="Brief biography or professional description..." style="min-height:80px;"></textarea>
+            </div>
+            
+            <div id="t-photo-preview-container" class="gone" style="margin-bottom:16px;">
+              <div class="fl" style="margin-bottom:4px;">Photo Preview:</div>
+              <img id="t-photo-preview" src="" style="width:72px;height:72px;object-fit:cover;border-radius:50%;border:1px solid var(--brd);">
+            </div>
+            
+            <div style="display:flex; gap:8px;">
+              <button class="btn ba bsm" type="submit" id="btnSaveMember">💾 Save Member</button>
+              <button class="btn bo bsm" type="button" onclick="resetTeamForm()">Reset Form</button>
+            </div>
+          </form>
+        </div>
+        
+        <div class="card">
+          <div class="ct" style="margin-bottom:12px;">👥 Current Team Members</div>
+          <div class="tw"><table>
+            <thead><tr><th>Order</th><th>Photo</th><th>Name</th><th>Role</th><th>Bio</th><th>Actions</th></tr></thead>
+            <tbody id="adminTeamTbody"></tbody>
+          </table></div>
+        </div>
+      </div>
+
       <!-- ═══ EXPORT — admin only ═══ -->
       <div class="view" id="v-export">
         <div class="sh"><div class="sh-lbl">Data Export</div><div class="sh-title">Export &amp; Reports</div></div>
@@ -2218,7 +2233,7 @@ function esc(s){
 //  STATE
 // ══════════════════════════════════════════════════
 var cu = null; // current user
-var cases = [], users = [], fups = [], stories = [];
+var cases = [], users = [], fups = [], stories = [], team = [];
 var storyDraftImages = [];
 
 function save(){} // No-op for legacy calls
@@ -2267,6 +2282,53 @@ db.collection('users').get().then(function(snap) {
       if (doc.exists && doc.data().n === 'Admin GLF') {
         db.collection('users').doc('admin').update({ n: 'Admin BJI' });
       }
+    });
+  }
+});
+
+// Seed default team members if empty
+db.collection('team').get().then(function(snap) {
+  if (snap.empty) {
+    var seedTeam = [
+      {
+        id: '1',
+        name: 'Ephrem Dushimimana',
+        role: 'Executive Director & Founder',
+        bio: 'Legal researcher and innovator directing the strategic vision, government coordination, and advocacy agenda of the initiative.',
+        photo: '', 
+        order: 1,
+        created: new Date().toISOString()
+      },
+      {
+        id: '2',
+        name: 'Dr. Liliane Nsengiyumva',
+        role: 'Legal & Policy Director',
+        bio: 'LL.M scholar overseeing court monitoring, legal outcomes validation, and translating field findings into national policy recommendations.',
+        photo: '',
+        order: 2,
+        created: new Date().toISOString()
+      },
+      {
+        id: '3',
+        name: 'Jean Bosco Uwiringiyimana',
+        role: 'Field Operations Lead',
+        bio: 'Social worker coordinating our network of field volunteers and community health workers (CHWs) tracking cases in Huye sectors.',
+        photo: '',
+        order: 3,
+        created: new Date().toISOString()
+      },
+      {
+        id: '4',
+        name: 'Marie Claire Mukamanzi',
+        role: 'Nutrition & Reintegration Lead',
+        bio: 'Public health advocate managing school reintegration programs, school fee sponsorships, and infant nutrition intervention logistics.',
+        photo: '',
+        order: 4,
+        created: new Date().toISOString()
+      }
+    ];
+    seedTeam.forEach(function(member) {
+      db.collection('team').doc(member.id).set(member);
     });
   }
 });
@@ -2637,6 +2699,7 @@ var viewRenderers = {
   stories:    renderStories,
   users:      renderUsers,
   settings:   renderSettings,
+  'team-manage': renderAdminTeam,
   'super-thinker': function(){ $('st-input').value = ''; $('st-results-card').style.display='none'; },
   'new-case': function(){ initCaseID(); goStep(1); }
 
@@ -3698,6 +3761,174 @@ function submitNewsletter() {
     setTimeout(function() { if (alertEl) alertEl.innerHTML = ''; }, 4000);
   });
 }
+
+// ══════════════════════════════════════════════════
+//  TEAM MEMBERS MANAGEMENT
+// ══════════════════════════════════════════════════
+var teamPhotoBase64 = "";
+
+function handleTeamPhoto(input) {
+  if (!input.files || !input.files.length) return;
+  var file = input.files[0];
+  var reader = new FileReader();
+  reader.onload = function(evt) {
+    teamPhotoBase64 = evt.target.result;
+    $('t-photo-data').value = evt.target.result;
+    $('t-photo-preview').src = evt.target.result;
+    $('t-photo-preview-container').classList.remove('gone');
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderPublicTeam() {
+  var grid = $('publicTeamGrid');
+  if(!grid) return;
+  if(!team.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--mut);font-size:14px;padding:20px;">No team members registered yet.</div>';
+    return;
+  }
+  grid.innerHTML = team.map(function(m) {
+    var avatarHtml = '';
+    if (m.photo) {
+      avatarHtml = '<img src="' + esc(m.photo) + '" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 16px; border: 3px solid var(--border-color);">';
+    } else {
+      var initials = (m.name || 'TM').split(' ').map(function(n){return n.charAt(0);}).join('').substring(0,2).toUpperCase();
+      var gradients = [
+        'linear-gradient(135deg, var(--navy) 0%, var(--royal) 100%)',
+        'linear-gradient(135deg, var(--royal) 0%, var(--success) 100%)',
+        'linear-gradient(135deg, var(--accent-gold) 0%, var(--navy) 100%)',
+        'linear-gradient(135deg, var(--success) 0%, var(--royal) 100%)'
+      ];
+      var idx = (parseInt(m.id) || 0) % gradients.length;
+      var grad = gradients[idx] || gradients[0];
+      avatarHtml = '<div style="width: 80px; height: 80px; border-radius: 50%; font-size: 26px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; background: ' + grad + '; color: #fff; font-weight: 700; border: 3px solid var(--border-color);">' + esc(initials) + '</div>';
+    }
+
+    return '<div class="card" style="text-align: center; padding: 28px 20px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; border-top: 4px solid var(--navy);">'
+      + '<div>'
+      + avatarHtml
+      + '<div class="ct" style="font-size: 17.5px; margin-bottom: 6px;">' + esc(m.name) + '</div>'
+      + '<div style="font-size: 11.5px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; margin-bottom: 14px; letter-spacing: 1px;">' + esc(m.role) + '</div>'
+      + '<p class="cb" style="font-size: 15.5px; line-height: 1.65; color: var(--text-muted); margin-bottom: 0;">' + esc(m.bio) + '</p>'
+      + '</div></div>';
+  }).join('');
+}
+
+function renderAdminTeam() {
+  var tb = $('adminTeamTbody');
+  if (!tb) return;
+  if (!team.length) {
+    tb.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--mut);padding:20px;">No team members registered yet.</td></tr>';
+    return;
+  }
+  tb.innerHTML = team.map(function(m) {
+    var photoHtml = m.photo 
+      ? '<img src="' + esc(m.photo) + '" style="width:36px;height:36px;object-fit:cover;border-radius:50%;">'
+      : '<span class="bge b-gy" style="padding:4px 8px;border-radius:50%;font-size:10px;font-weight:700;">' + (m.name || 'TM').substring(0,2).toUpperCase() + '</span>';
+    
+    return '<tr>'
+      + '<td>' + esc(m.order || 0) + '</td>'
+      + '<td>' + photoHtml + '</td>'
+      + '<td><strong>' + esc(m.name) + '</strong></td>'
+      + '<td>' + esc(m.role) + '</td>'
+      + '<td style="font-size:11px;color:var(--mut);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + esc(m.bio) + '</td>'
+      + '<td style="white-space:nowrap;">'
+      + ' <button class="btn bo bxs" onclick="editTeamMember(\'' + m.id + '\')">Edit</button>'
+      + ' <button class="btn br bxs" onclick="deleteTeamMember(\'' + m.id + '\')">Delete</button>'
+      + '</td></tr>';
+  }).join('');
+}
+
+function saveTeamMember() {
+  var name = $('t-name').value.trim();
+  var role = $('t-role').value.trim();
+  var bio = $('t-bio').value.trim();
+  var order = parseInt($('t-order').value) || 1;
+  var photo = $('t-photo-data').value;
+  var editingId = $('t-editing-id').value;
+  var alertEl = $('teamAlert');
+
+  if (!name || !role || !bio) {
+    showAlert(alertEl, 'al-er', '⚠️ Name, Role, and Bio are required.');
+    return;
+  }
+
+  var memberId = editingId || Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+  var obj = {
+    id: memberId,
+    name: name,
+    role: role,
+    bio: bio,
+    order: order,
+    photo: photo || '',
+    updated: new Date().toISOString()
+  };
+
+  if (!editingId) {
+    obj.created = new Date().toISOString();
+    db.collection('team').doc(memberId).set(obj).then(function() {
+      showAlert(alertEl, 'al-ok', '✅ Team member added.');
+      resetTeamForm();
+    }).catch(function(err) {
+      showAlert(alertEl, 'al-er', '⚠️ Error saving member: ' + err.message);
+    });
+  } else {
+    db.collection('team').doc(memberId).update(obj).then(function() {
+      showAlert(alertEl, 'al-ok', '✅ Team member updated.');
+      resetTeamForm();
+    }).catch(function(err) {
+      showAlert(alertEl, 'al-er', '⚠️ Error updating member: ' + err.message);
+    });
+  }
+}
+
+function editTeamMember(id) {
+  var m = team.find(function(x) { return x.id === id; });
+  if (!m) return;
+  $('t-editing-id').value = m.id;
+  $('t-name').value = m.name;
+  $('t-role').value = m.role;
+  $('t-bio').value = m.bio;
+  $('t-order').value = m.order || 1;
+  $('t-photo-data').value = m.photo || '';
+  
+  if (m.photo) {
+    $('t-photo-preview').src = m.photo;
+    $('t-photo-preview-container').classList.remove('gone');
+  } else {
+    $('t-photo-preview-container').classList.add('gone');
+  }
+
+  $('teamFormTitle').innerHTML = '✏️ Edit Team Member: ' + esc(m.name);
+  $('v-team-manage').scrollIntoView({ behavior: 'smooth' });
+}
+
+function deleteTeamMember(id) {
+  if (!confirm('Are you sure you want to delete this team member? This will remove them from the public site.')) return;
+  db.collection('team').doc(id).delete().then(function() {
+    alert('Team member deleted.');
+  });
+}
+
+function resetTeamForm() {
+  $('t-editing-id').value = '';
+  $('t-name').value = '';
+  $('t-role').value = '';
+  $('t-bio').value = '';
+  $('t-order').value = '1';
+  $('t-photo-data').value = '';
+  $('t-photo-preview').src = '';
+  $('t-photo-preview-container').classList.add('gone');
+  $('teamFormTitle').innerHTML = '➕ Add Team Member';
+}
+
+db.collection('team').onSnapshot(function(snap) {
+  team = [];
+  snap.forEach(function(doc) { team.push(doc.data()); });
+  team.sort(function(a,b){ return (a.order||0) - (b.order||0); });
+  renderPublicTeam();
+  if(cu) renderAdminTeam();
+});
 
 // ══════════════
 //  BOOT
