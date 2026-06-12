@@ -1167,7 +1167,12 @@ input:checked + .slider:before {
     <div class="sitem"><span class="snum" id="ps2">0</span><div class="slbl" data-i18n="stat.mothers">Mothers Supported</div></div>
     <div class="sitem"><span class="snum" id="ps3">0%</span><div class="slbl" data-i18n="stat.school">School Reintegration</div></div>
     <div class="sitem"><span class="snum" id="ps4">0%</span><div class="slbl" data-i18n="stat.support">Support Enforced</div></div>
-    <div class="sitem"><span class="snum">Huye</span><div class="slbl" data-i18n="stat.district">Pilot District</div></div>
+    <div class="sitem">
+      <select id="publicDistrictFilter" onchange="updatePublicStats()" style="font-family:'Playfair Display',serif; font-size:24px; font-weight:800; color:var(--navy); border:none; border-bottom:2px dashed var(--royal); background:transparent; outline:none; text-align:center; padding:0; cursor:pointer; width:100%; max-width:180px;">
+        <option value="">All Districts</option>
+      </select>
+      <div class="slbl" data-i18n="stat.district" style="margin-top:8px;">Filter District</div>
+    </div>
   </div>
 
   <div class="pub-wrap">
@@ -2817,7 +2822,50 @@ function switchPub(sec, el){
 }
 
 function updatePublicStats(){
-  var a = cases.filter(function(c){ return c.validation==='active'; });
+  var active = cases.filter(function(c){ return c.validation==='active'; });
+  
+  var distFilter = $('publicDistrictFilter');
+  if (distFilter) {
+    var selectedVal = distFilter.value;
+    var uniqueDistricts = {};
+    active.forEach(function(c) {
+      if (c.district) {
+        uniqueDistricts[c.district] = true;
+      } else {
+        uniqueDistricts['Huye'] = true;
+      }
+    });
+    
+    var sortedDists = Object.keys(uniqueDistricts).sort();
+    
+    distFilter.innerHTML = '<option value="" style="font-family:sans-serif; font-size:14px; font-weight:normal;">All Districts</option>';
+    sortedDists.forEach(function(dist) {
+      var opt = document.createElement('option');
+      opt.value = dist;
+      opt.textContent = dist;
+      opt.style.fontFamily = 'sans-serif';
+      opt.style.fontSize = '14px';
+      opt.style.fontWeight = 'normal';
+      distFilter.appendChild(opt);
+    });
+    
+    distFilter.value = selectedVal;
+    if (distFilter.selectedIndex === -1) {
+      distFilter.value = "";
+    }
+  }
+
+  var filterDistVal = distFilter ? distFilter.value : "";
+  var a = active;
+  if (filterDistVal) {
+    a = active.filter(function(c) {
+      if (filterDistVal === 'Huye') {
+        return c.district === 'Huye' || !c.district;
+      }
+      return c.district === filterDistVal;
+    });
+  }
+
   var t = a.length;
   $('ps1').textContent = t;
   $('ps2').textContent = a.filter(function(c){ return c.glf && c.glf!=='none'; }).length;
