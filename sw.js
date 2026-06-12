@@ -2,6 +2,7 @@ const CACHE_NAME = 'beyond-justice-v1';
 const ASSETS = [
   './index.html',
   './manifest.json',
+  './rwanda_locations.json',
   // Normally we would cache fonts and images here
 ];
 

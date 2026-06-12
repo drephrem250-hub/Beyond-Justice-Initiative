@@ -1358,22 +1358,11 @@ input:checked + .slider:before {
               </div>
             </div>
 
-            <div style="font-size:12px; font-weight:700; color:var(--navy); text-transform:uppercase; border-bottom:1.5px solid var(--brd); padding-bottom:6px; margin-bottom:16px;">Demographics</div>
-            <div class="g3" style="margin-bottom: 20px;">
+            <div style="font-size:12px; font-weight:700; color:var(--navy); text-transform:uppercase; border-bottom:1.5px solid var(--brd); padding-bottom:6px; margin-bottom:16px;">Demographics &amp; Location</div>
+            <div class="g2" style="margin-bottom: 16px;">
               <div class="fg">
                 <label class="fl">Mother's Age *</label>
                 <input class="fc" id="pub-age" type="number" min="10" max="25" required placeholder="e.g. 17">
-              </div>
-              <div class="fg">
-                <label class="fl">Sector (Huye District) *</label>
-                <select class="fc" id="pub-sector" required>
-                  <option value="">— Select sector —</option>
-                  <option>Ngoma</option><option>Tumba</option><option>Mbazi</option>
-                  <option>Rwaniro</option><option>Maraba</option><option>Mukura</option>
-                  <option>Ruhashya</option><option>Shyanda</option><option>Simbi</option>
-                  <option>Kibilizi</option><option>Kigembe</option><option>Sovu</option>
-                  <option>Huye</option><option>Gishamvu</option><option>Karama</option>
-                </select>
               </div>
               <div class="fg">
                 <label class="fl">Education Status *</label>
@@ -1383,6 +1372,42 @@ input:checked + .slider:before {
                   <option value="O-Level">O-Level (S1-S3)</option>
                   <option value="A-Level">A-Level (S4-S6)</option>
                   <option value="None">None</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="g3" style="margin-bottom: 16px;">
+              <div class="fg">
+                <label class="fl">Province *</label>
+                <select class="fc" id="pub-province" required>
+                  <option value="">— Select province —</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label class="fl">District *</label>
+                <select class="fc" id="pub-district" required disabled>
+                  <option value="">— Select district —</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label class="fl">Sector *</label>
+                <select class="fc" id="pub-sector" required disabled>
+                  <option value="">— Select sector —</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="g2" style="margin-bottom: 20px;">
+              <div class="fg">
+                <label class="fl">Cell *</label>
+                <select class="fc" id="pub-cell" required disabled>
+                  <option value="">— Select cell —</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label class="fl">Village *</label>
+                <select class="fc" id="pub-village" required disabled>
+                  <option value="">— Select village —</option>
                 </select>
               </div>
             </div>
@@ -1862,7 +1887,11 @@ input:checked + .slider:before {
             <div class="fg"><label class="fl">Case ID (auto-generated)</label><input class="fc" id="f-id" readonly style="background:var(--light);cursor:default;"></div>
             <div class="fg"><label class="fl">Registration Date</label><input class="fc" id="f-date" type="date"></div>
             <div class="fg"><label class="fl">Mother's Age *</label><input class="fc" id="f-age" type="number" min="10" max="25" placeholder="e.g. 17"></div>
-            <div class="fg"><label class="fl">Sector *</label><select class="fc" id="f-sector"><option value="">— Select sector —</option><option>Ngoma</option><option>Tumba</option><option>Mbazi</option><option>Rwaniro</option><option>Maraba</option><option>Mukura</option><option>Ruhashya</option><option>Shyanda</option><option>Simbi</option><option>Kibilizi</option><option>Kigembe</option><option>Sovu</option><option>Huye</option><option>Gishamvu</option><option>Karama</option></select></div>
+            <div class="fg"><label class="fl">Province *</label><select class="fc" id="f-province"><option value="">— Select province —</option></select></div>
+            <div class="fg"><label class="fl">District *</label><select class="fc" id="f-district" disabled><option value="">— Select district —</option></select></div>
+            <div class="fg"><label class="fl">Sector *</label><select class="fc" id="f-sector" disabled><option value="">— Select sector —</option></select></div>
+            <div class="fg"><label class="fl">Cell *</label><select class="fc" id="f-cell" disabled><option value="">— Select cell —</option></select></div>
+            <div class="fg"><label class="fl">Village *</label><select class="fc" id="f-village" disabled><option value="">— Select village —</option></select></div>
             <div class="fg"><label class="fl">Education at Pregnancy</label><select class="fc" id="f-edu"><option value="">Select</option><option>Primary</option><option>O-Level</option><option>A-Level</option><option>None</option></select></div>
             <div class="fg"><label class="fl">Current School Status</label><select class="fc" id="f-sch"><option value="">Select</option><option value="in_school">In School</option><option value="dropped_out">Dropped Out</option><option value="reintegrated">Reintegrated</option><option value="vocational">Vocational Training</option><option value="na">N/A</option></select></div>
             <div class="fg"><label class="fl">Family Situation</label><select class="fc" id="f-fam"><option value="">Select</option><option value="supported">Supported by family</option><option value="partial">Partial support</option><option value="rejected">Rejected by family</option><option value="alone">Living alone</option></select></div>
@@ -2984,7 +3013,14 @@ function renderCases(){
   var pr     = ($('casePriFilter')||{value:''}).value;
   var list   = cases.slice();
 
-  if(search) list = list.filter(function(c){ return c.id.toLowerCase().includes(search)||(c.sector&&c.sector.toLowerCase().includes(search)); });
+  if(search) list = list.filter(function(c){ 
+    return c.id.toLowerCase().includes(search)
+      || (c.sector && c.sector.toLowerCase().includes(search))
+      || (c.district && c.district.toLowerCase().includes(search))
+      || (c.cell && c.cell.toLowerCase().includes(search))
+      || (c.village && c.village.toLowerCase().includes(search))
+      || (c.province && c.province.toLowerCase().includes(search));
+  });
   if(st) list = list.filter(function(c){ return c.validation===st; });
   if(pr) list = list.filter(function(c){ return c.pri===pr; });
 
@@ -3064,7 +3100,7 @@ function viewCase(id){
 
   $('caseModalBody').innerHTML =
     '<div class="det-sec"><h4>Mother Information</h4><div class="det-grid">'
-    +RE('Age',c.age)+RE('Sector',c.sector)+RE('Education',c.edu)+R('School Status',schBadge(c.sch))+RE('Family',c.fam)+RE('Economic',c.econ)
+    +RE('Age',c.age)+RE('Province',c.province)+RE('District',c.district)+RE('Sector',c.sector)+RE('Cell',c.cell)+RE('Village',c.village)+RE('Education',c.edu)+R('School Status',schBadge(c.sch))+RE('Family',c.fam)+RE('Economic',c.econ)
     +'</div></div>'
     +'<div class="det-sec"><h4>Child Information</h4><div class="det-grid">'
     +RE('Age',c.cage)+RE('Sex',c.csex)+RE('Nutrition',c.nutr)+RE('Stunting',c.stunt)+RE('In School',c.csch)+RE('Caregiver',c.care)+RE('Health Access',c.hlth)
@@ -3118,10 +3154,15 @@ function goStep(n){
 }
 
 function submitCase(){
-  var age=$('f-age').value, sector=$('f-sector').value;
-  var alertEl=$('ncAlert');
-  if(!age||!sector){
-    alertEl.innerHTML='<div class="al al-er">⚠️ Age and Sector are required before submitting.</div>';
+  var age = $('f-age').value;
+  var provVal = $('f-province').value;
+  var district = $('f-district').value;
+  var sector = $('f-sector').value;
+  var cell = $('f-cell').value;
+  var village = $('f-village').value;
+  var alertEl = $('ncAlert');
+  if(!age || !provVal || !district || !sector || !cell || !village){
+    alertEl.innerHTML = '<div class="al al-er">⚠️ Age and all Location fields (Province, District, Sector, Cell, Village) are required before submitting.</div>';
     goStep(1); return;
   }
   var autoApprove = cu && (cu.r==='admin'||cu.r==='coordinator');
@@ -3129,7 +3170,11 @@ function submitCase(){
     id:       $('f-id').value,
     date:     $('f-date').value,
     age:      age,
+    province: PROVINCE_MAP[provVal] || provVal,
+    district: district,
     sector:   sector,
+    cell:     cell,
+    village:  village,
     edu:      $('f-edu').value,
     sch:      $('f-sch').value,
     fam:      $('f-fam').value,
@@ -3157,13 +3202,15 @@ function submitCase(){
     enteredBy:$('f-by').value,
     validation: autoApprove ? 'active' : 'pending',
     createdAt:  new Date().toISOString()
-
   };
   db.collection('cases').doc(obj.id).set(obj);
   // Clear all form fields
-  ['f-age','f-sector','f-edu','f-sch','f-fam','f-econ','f-cage','f-csex','f-nutr','f-csch','f-care','f-hlth',
+  ['f-age','f-province','f-district','f-sector','f-cell','f-village','f-edu','f-sch','f-fam','f-econ','f-cage','f-csex','f-nutr','f-csch','f-care','f-hlth',
    'f-rep','f-crt','f-out','f-sord','f-fst','f-nrr','f-srec','f-ssrc','f-glf','f-notes'].forEach(function(id){
     var el=$(id); if(el){ el.tagName==='SELECT' ? el.selectedIndex=0 : (el.value=''); }
+  });
+  ['f-district', 'f-sector', 'f-cell', 'f-village'].forEach(function(id) {
+    var el = $(id); if (el) el.disabled = true;
   });
   alertEl.innerHTML = '<div class="al al-ok">✅ Case '+obj.id+' submitted! '+(autoApprove?'Auto-approved and active.':'Awaiting coordinator validation.')+'</div>';
   goStep(1); initCaseID();
@@ -3703,14 +3750,18 @@ function activateEngineStep(num) {
 
 function submitPublicReport() {
   var age = $('pub-age').value;
+  var provVal = $('pub-province').value;
+  var district = $('pub-district').value;
   var sector = $('pub-sector').value;
+  var cell = $('pub-cell').value;
+  var village = $('pub-village').value;
   var edu = $('pub-edu').value;
   var rep = $('pub-rep').value;
   var outcome = $('pub-out').value;
   var srec = $('pub-srec').value;
   var alertEl = $('publicReportAlert');
 
-  if (!age || !sector || !edu || !rep || !outcome || !srec) {
+  if (!age || !provVal || !district || !sector || !cell || !village || !edu || !rep || !outcome || !srec) {
     showAlert(alertEl, 'al-er', '⚠️ Please fill out all required fields.');
     return;
   }
@@ -3739,7 +3790,11 @@ function submitPublicReport() {
     id: pubId,
     date: new Date().toISOString().split('T')[0],
     age: age,
+    province: PROVINCE_MAP[provVal] || provVal,
+    district: district,
     sector: sector,
+    cell: cell,
+    village: village,
     edu: edu,
     sch: 'na',
     fam: 'na',
@@ -3780,6 +3835,9 @@ function submitPublicReport() {
     
     $('publicReportForm').reset();
     togglePubAnon($('pub-anon'));
+    ['pub-district', 'pub-sector', 'pub-cell', 'pub-village'].forEach(function(id) {
+      var el = $(id); if (el) el.disabled = true;
+    });
     
     alertEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     
@@ -3982,11 +4040,136 @@ db.collection('team').onSnapshot(function(snap) {
   if(cu) renderAdminTeam();
 });
 
+// ══════════════════════════════════════════════════
+//  RWANDA ADMINISTRATIVE LOCATIONS CASCADING ENGINE
+// ══════════════════════════════════════════════════
+var locDb = null;
+const PROVINCE_MAP = {
+  'KIGALI': 'Kigali City',
+  'SOUTH': 'Southern Province',
+  'WEST': 'Western Province',
+  'NORTH': 'Northern Province',
+  'EAST': 'Eastern Province'
+};
+
+function loadLocations() {
+  fetch('./rwanda_locations.json')
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      locDb = data;
+      setupCascadingDropdowns('pub');
+      setupCascadingDropdowns('f');
+    })
+    .catch(function(err) {
+      console.error('Failed to load locations:', err);
+    });
+}
+
+function setupCascadingDropdowns(prefix) {
+  var provEl = $(prefix + '-province');
+  var distEl = $(prefix + '-district');
+  var sectEl = $(prefix + '-sector');
+  var cellEl = $(prefix + '-cell');
+  var villEl = $(prefix + '-village');
+
+  if (!provEl || !distEl || !sectEl || !cellEl || !villEl) return;
+
+  // Clear and populate Provinces
+  provEl.innerHTML = '<option value="">— Select province —</option>';
+  Object.keys(locDb).sort().forEach(function(provKey) {
+    var opt = document.createElement('option');
+    opt.value = provKey;
+    opt.textContent = PROVINCE_MAP[provKey] || provKey;
+    provEl.appendChild(opt);
+  });
+
+  function resetSelect(el, placeholder) {
+    el.innerHTML = '<option value="">' + placeholder + '</option>';
+    el.disabled = true;
+  }
+
+  provEl.addEventListener('change', function() {
+    var provVal = provEl.value;
+    resetSelect(distEl, '— Select district —');
+    resetSelect(sectEl, '— Select sector —');
+    resetSelect(cellEl, '— Select cell —');
+    resetSelect(villEl, '— Select village —');
+
+    if (provVal && locDb[provVal]) {
+      distEl.disabled = false;
+      Object.keys(locDb[provVal]).sort().forEach(function(distKey) {
+        var opt = document.createElement('option');
+        opt.value = distKey;
+        opt.textContent = distKey;
+        distEl.appendChild(opt);
+      });
+    }
+  });
+
+  distEl.addEventListener('change', function() {
+    var provVal = provEl.value;
+    var distVal = distEl.value;
+    resetSelect(sectEl, '— Select sector —');
+    resetSelect(cellEl, '— Select cell —');
+    resetSelect(villEl, '— Select village —');
+
+    if (provVal && distVal && locDb[provVal][distVal]) {
+      sectEl.disabled = false;
+      Object.keys(locDb[provVal][distVal]).sort().forEach(function(sectKey) {
+        var opt = document.createElement('option');
+        opt.value = sectKey;
+        opt.textContent = sectKey;
+        sectEl.appendChild(opt);
+      });
+    }
+  });
+
+  sectEl.addEventListener('change', function() {
+    var provVal = provEl.value;
+    var distVal = distEl.value;
+    var sectVal = sectEl.value;
+    resetSelect(cellEl, '— Select cell —');
+    resetSelect(villEl, '— Select village —');
+
+    if (provVal && distVal && sectVal && locDb[provVal][distVal][sectVal]) {
+      cellEl.disabled = false;
+      Object.keys(locDb[provVal][distVal][sectVal]).sort().forEach(function(cellKey) {
+        var opt = document.createElement('option');
+        opt.value = cellKey;
+        opt.textContent = cellKey;
+        cellEl.appendChild(opt);
+      });
+    }
+  });
+
+  cellEl.addEventListener('change', function() {
+    var provVal = provEl.value;
+    var distVal = distEl.value;
+    var sectVal = sectEl.value;
+    var cellVal = cellEl.value;
+    resetSelect(villEl, '— Select village —');
+
+    if (provVal && distVal && sectVal && cellVal && locDb[provVal][distVal][sectVal][cellVal]) {
+      villEl.disabled = false;
+      var villages = locDb[provVal][distVal][sectVal][cellVal];
+      if (Array.isArray(villages)) {
+        villages.slice().sort().forEach(function(villName) {
+          var opt = document.createElement('option');
+          opt.value = villName;
+          opt.textContent = villName;
+          villEl.appendChild(opt);
+        });
+      }
+    }
+  });
+}
+
 // ══════════════
 //  BOOT
 // ══════════════════════════════════════════════════
 applyLang();
 updatePublicStats();
+loadLocations();
 
 // Register Service Worker for PWA
 if ('serviceWorker' in navigator) {
