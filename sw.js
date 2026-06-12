@@ -1,4 +1,4 @@
-const CACHE_NAME = 'beyond-justice-v3';
+const CACHE_NAME = 'beyond-justice-v4';
 const ASSETS = [
   './index.html',
   './manifest.json',

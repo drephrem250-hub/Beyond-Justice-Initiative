@@ -2419,11 +2419,137 @@ db.collection('team').get().then(function(snap) {
   }
 });
 
+// Seed default cases if empty
+db.collection('cases').get().then(function(snap) {
+  if (snap.empty) {
+    var seedCases = [
+      {
+        id: 'BJI-2026-001',
+        date: new Date().toISOString().split('T')[0],
+        age: '17',
+        province: 'Southern Province',
+        district: 'Huye',
+        sector: 'Tumba',
+        cell: 'Gitwa',
+        village: 'Agasenyi',
+        edu: 'Primary',
+        sch: 'dropped_out',
+        fam: 'partial',
+        econ: 'difficult',
+        cage: '18 months',
+        csex: 'Female',
+        nutr: 'normal',
+        csch: 'no',
+        care: 'Mother',
+        hlth: 'yes',
+        stunt: 'na',
+        rep: 'yes',
+        crt: 'yes',
+        outcome: 'convicted',
+        sord: 'yes',
+        sordAmt: 30000,
+        srec: 'none',
+        ssrc: 'na',
+        asset: 'na',
+        glf: 'none',
+        pri: 'critical',
+        notes: 'Follow-up in Tumba sector. Mother (18) dropped out of school last term. The father was imprisoned 6 months ago. No child support has been received since the arrest. Grandmother is struggling to provide nutrition.',
+        fudate: new Date().toISOString().split('T')[0],
+        enteredBy: 'Jean Uwimana',
+        validation: 'active',
+        createdAt: new Date().toISOString(),
+        fst: 'imprisoned',
+        nrr: 'N/A'
+      },
+      {
+        id: 'BJI-2026-002',
+        date: new Date().toISOString().split('T')[0],
+        age: '16',
+        province: 'Southern Province',
+        district: 'Nyaruguru',
+        sector: 'Kibeho',
+        cell: 'Kibeho',
+        village: 'Agateko',
+        edu: 'O-Level',
+        sch: 'reintegrated',
+        fam: 'supported',
+        econ: 'moderate',
+        cage: '2 years',
+        csex: 'Male',
+        nutr: 'at_risk',
+        csch: 'no',
+        care: 'Grandmother',
+        hlth: 'limited',
+        stunt: 'na',
+        rep: 'yes',
+        crt: 'yes',
+        outcome: 'convicted',
+        sord: 'yes',
+        sordAmt: 25000,
+        srec: 'regular',
+        ssrc: 'father',
+        asset: 'na',
+        glf: 'none',
+        pri: 'low',
+        notes: 'Case resolved. Child support is received regularly. Mother has successfully reintegrated into local secondary school.',
+        fudate: new Date().toISOString().split('T')[0],
+        enteredBy: 'Jean Uwimana',
+        validation: 'active',
+        createdAt: new Date().toISOString(),
+        fst: 'stable',
+        nrr: 'N/A'
+      },
+      {
+        id: 'BJI-2026-003',
+        date: new Date().toISOString().split('T')[0],
+        age: '18',
+        province: 'Kigali City',
+        district: 'Nyarugenge',
+        sector: 'Kimisagara',
+        cell: 'Kimisagara',
+        village: 'Amahoro',
+        edu: 'A-Level',
+        sch: 'in_school',
+        fam: 'rejected',
+        econ: 'very_difficult',
+        cage: '6 months',
+        csex: 'Female',
+        nutr: 'normal',
+        csch: 'no',
+        care: 'Mother',
+        hlth: 'yes',
+        stunt: 'na',
+        rep: 'no',
+        crt: 'no',
+        outcome: 'na',
+        sord: 'no',
+        sordAmt: 0,
+        srec: 'none',
+        ssrc: 'na',
+        asset: 'na',
+        glf: 'active',
+        pri: 'high',
+        notes: 'Unreported case. Mother was rejected by family. BJI is providing direct support for rental housing and child nutrition.',
+        fudate: new Date().toISOString().split('T')[0],
+        enteredBy: 'Jean Uwimana',
+        validation: 'active',
+        createdAt: new Date().toISOString(),
+        fst: 'unknown',
+        nrr: 'Afraid of family stigma'
+      }
+    ];
+    seedCases.forEach(function(c) {
+      db.collection('cases').doc(c.id).set(c);
+    });
+  }
+});
+
 // Real-time listeners
 db.collection('cases').onSnapshot(function(snap) {
   cases = [];
   snap.forEach(function(doc) { cases.push(doc.data()); });
   if(cu) { renderCases(); renderDashboard(); renderValidate(); renderLegal(); renderSupport(); renderAnalytics(); renderFollowup(); renderSettings(); }
+  populatePublicDistrictFilter();
   updatePublicStats();
 });
 
@@ -2821,41 +2947,46 @@ function switchPub(sec, el){
   updatePublicStats();
 }
 
+function populatePublicDistrictFilter() {
+  var distFilter = $('publicDistrictFilter');
+  if (!distFilter) return;
+
+  var active = cases.filter(function(c){ return c.validation==='active'; });
+  var selectedVal = distFilter.value;
+  var uniqueDistricts = {};
+  
+  active.forEach(function(c) {
+    if (c.district) {
+      uniqueDistricts[c.district] = true;
+    } else {
+      uniqueDistricts['Huye'] = true;
+    }
+  });
+  
+  var sortedDists = Object.keys(uniqueDistricts).sort();
+  
+  distFilter.innerHTML = '<option value="" style="font-family:sans-serif; font-size:14px; font-weight:normal;">All Districts</option>';
+  sortedDists.forEach(function(dist) {
+    var opt = document.createElement('option');
+    opt.value = dist;
+    opt.textContent = dist;
+    opt.style.fontFamily = 'sans-serif';
+    opt.style.fontSize = '14px';
+    opt.style.fontWeight = 'normal';
+    distFilter.appendChild(opt);
+  });
+  
+  distFilter.value = selectedVal;
+  if (distFilter.selectedIndex === -1) {
+    distFilter.value = "";
+  }
+}
+
 function updatePublicStats(){
   var active = cases.filter(function(c){ return c.validation==='active'; });
-  
   var distFilter = $('publicDistrictFilter');
-  if (distFilter) {
-    var selectedVal = distFilter.value;
-    var uniqueDistricts = {};
-    active.forEach(function(c) {
-      if (c.district) {
-        uniqueDistricts[c.district] = true;
-      } else {
-        uniqueDistricts['Huye'] = true;
-      }
-    });
-    
-    var sortedDists = Object.keys(uniqueDistricts).sort();
-    
-    distFilter.innerHTML = '<option value="" style="font-family:sans-serif; font-size:14px; font-weight:normal;">All Districts</option>';
-    sortedDists.forEach(function(dist) {
-      var opt = document.createElement('option');
-      opt.value = dist;
-      opt.textContent = dist;
-      opt.style.fontFamily = 'sans-serif';
-      opt.style.fontSize = '14px';
-      opt.style.fontWeight = 'normal';
-      distFilter.appendChild(opt);
-    });
-    
-    distFilter.value = selectedVal;
-    if (distFilter.selectedIndex === -1) {
-      distFilter.value = "";
-    }
-  }
-
   var filterDistVal = distFilter ? distFilter.value : "";
+  
   var a = active;
   if (filterDistVal) {
     a = active.filter(function(c) {
